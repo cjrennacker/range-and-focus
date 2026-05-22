@@ -2276,6 +2276,9 @@ img[data-lightbox] { cursor: zoom-in; }
       });
     }
   });
+})();
+</script>
+
 <!-- ══════════ QUIZ TRIGGER ══════════ -->
 <div id="quiz-trigger" style="display:none;">
   <div class="rf-quiz-trigger-inner">
@@ -2764,7 +2767,7 @@ var RF_QUESTIONS = [
 ];
 
 // ════════════════════════════════════════════
-// STATE
+// QUIZ ENGINE
 // ════════════════════════════════════════════
 var LOCKOUT_MS  = 5 * 60 * 1000;
 var KEY_LOCKOUT = 'rf_quiz_lockout_until';
@@ -2772,237 +2775,248 @@ var KEY_CREDIT  = 'rf_quiz_credited';
 var questions = [], currentQ = 0, score = 0, selectedAnswers = [];
 var lockoutTimer = null;
 
-var triggerEl    = document.getElementById('quiz-trigger');
-var startBtn     = document.getElementById('quiz-start-btn');
-var modalEl      = document.getElementById('quiz-modal');
-var successEl    = document.getElementById('quiz-success');
-var lockoutEl    = document.getElementById('quiz-lockout');
-var qArea        = document.getElementById('quiz-question-area');
-var progressFill = document.getElementById('quiz-progress');
-var counterEl    = document.getElementById('quiz-counter');
-var submitBtn    = document.getElementById('quiz-submit-btn');
-var countdownEl  = document.getElementById('quiz-countdown');
+function initRFQuiz() {
+  var triggerEl    = document.getElementById('quiz-trigger');
+  var startBtn     = document.getElementById('quiz-start-btn');
+  var modalEl      = document.getElementById('quiz-modal');
+  var successEl    = document.getElementById('quiz-success');
+  var lockoutEl    = document.getElementById('quiz-lockout');
+  var qArea        = document.getElementById('quiz-question-area');
+  var progressFill = document.getElementById('quiz-progress');
+  var counterEl    = document.getElementById('quiz-counter');
+  var submitBtn    = document.getElementById('quiz-submit-btn');
+  var countdownEl  = document.getElementById('quiz-countdown');
 
-// ── Scroll trigger ──
-var triggered = false;
-function onScroll() {
-  if (triggered) return;
-  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 80) {
-    triggered = true;
-    triggerEl.style.display = 'block';
-    window.removeEventListener('scroll', onScroll);
-  }
-}
-window.addEventListener('scroll', onScroll, { passive: true });
-
-// ── Helpers ──
-function shuffle(a) {
-  var b = a.slice();
-  for (var i = b.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var t = b[i]; b[i] = b[j]; b[j] = t;
-  }
-  return b;
-}
-function isLocked() {
-  try { return Date.now() < parseInt(localStorage.getItem(KEY_LOCKOUT) || '0'); } catch(e) { return false; }
-}
-function lockRemaining() {
-  try { return Math.max(0, parseInt(localStorage.getItem(KEY_LOCKOUT) || '0') - Date.now()); } catch(e) { return 0; }
-}
-function setLock() {
-  try { localStorage.setItem(KEY_LOCKOUT, Date.now() + LOCKOUT_MS); } catch(e) {}
-}
-function hasCredited() {
-  try { return !!localStorage.getItem(KEY_CREDIT); } catch(e) { return false; }
-}
-function markCredit() {
-  try { localStorage.setItem(KEY_CREDIT, '1'); } catch(e) {}
-}
-
-if (hasCredited() && startBtn) startBtn.textContent = 'Take it again';
-
-startBtn.addEventListener('click', function() {
-  if (isLocked()) { showLockout(); return; }
-  questions = shuffle(RF_QUESTIONS).slice(0, 3);
-  currentQ = 0; score = 0;
-  modalEl.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-  renderQ();
-});
-
-function renderQ() {
-  var q = questions[currentQ];
-  progressFill.style.width = ((currentQ / 3) * 100) + '%';
-  counterEl.textContent = 'Question ' + (currentQ + 1) + ' of 3';
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Submit answer';
-  selectedAnswers = [];
-
-  var html = '<p class="rf-quiz-q-text">' + q.q + '</p>';
-
-  if (q.type === 'mc') {
-    html += '<div class="rf-quiz-options" id="rf-opts">';
-    q.options.forEach(function(opt, i) {
-      html += '<label class="rf-quiz-option" data-idx="' + i + '"><input type="radio" name="rfo" value="' + i + '"> ' + opt + '</label>';
-    });
-    html += '</div>';
-  } else if (q.type === 'multi') {
-    html += '<p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--alpine-400);margin-bottom:12px;font-family:\'Work Sans\',sans-serif;">Select all that apply</p>';
-    html += '<div class="rf-quiz-options" id="rf-opts">';
-    q.options.forEach(function(opt, i) {
-      html += '<label class="rf-quiz-option" data-idx="' + i + '"><input type="checkbox" name="rfo" value="' + i + '"> ' + opt + '</label>';
-    });
-    html += '</div>';
-  } else if (q.type === 'short') {
-    html += '<input type="text" class="rf-quiz-input" id="rf-short" placeholder="Type your answer..." autocomplete="off">';
-    if (q.hint) html += '<p style="font-size:11px;color:var(--alpine-400);margin-top:8px;font-family:\'Work Sans\',sans-serif;">Hint: ' + q.hint + '</p>';
-  }
-  html += '<div class="rf-quiz-feedback" id="rf-fb"></div>';
-  qArea.innerHTML = html;
-
-  if (q.type === 'mc') {
-    qArea.querySelectorAll('.rf-quiz-option').forEach(function(lbl) {
-      lbl.addEventListener('click', function() {
-        qArea.querySelectorAll('.rf-quiz-option').forEach(function(l) { l.classList.remove('selected'); });
-        lbl.classList.add('selected'); lbl.querySelector('input').checked = true;
-        selectedAnswers = [parseInt(lbl.dataset.idx)]; submitBtn.disabled = false;
-      });
-    });
-  } else if (q.type === 'multi') {
-    qArea.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
-      cb.addEventListener('change', function() {
-        cb.closest('.rf-quiz-option').classList.toggle('selected', cb.checked);
-        selectedAnswers = [];
-        qArea.querySelectorAll('input[type="checkbox"]:checked').forEach(function(c) { selectedAnswers.push(parseInt(c.value)); });
-        submitBtn.disabled = selectedAnswers.length === 0;
-      });
-    });
-  } else if (q.type === 'short') {
-    var inp = document.getElementById('rf-short');
-    inp.addEventListener('input', function() { submitBtn.disabled = inp.value.trim().length < 2; });
-  }
-}
-
-submitBtn.addEventListener('click', function() {
-  if (submitBtn.textContent === 'Next question' || submitBtn.textContent === 'See results') {
-    currentQ++;
-    if (currentQ < 3) renderQ(); else finishQuiz();
+  if (!triggerEl || !startBtn || !modalEl || !successEl || !lockoutEl ||
+      !qArea || !progressFill || !counterEl || !submitBtn || !countdownEl) {
     return;
   }
 
-  var q = questions[currentQ];
-  var fb = document.getElementById('rf-fb');
-  var opts = document.getElementById('rf-opts');
-  var correct = false;
+  // ── Scroll trigger ──
+  var triggered = false;
+  function onScroll() {
+    if (triggered) return;
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 80) {
+      triggered = true;
+      triggerEl.style.display = 'block';
+      window.removeEventListener('scroll', onScroll);
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
 
-  if (q.type === 'mc') {
-    correct = selectedAnswers[0] === q.answer;
-    if (opts) {
-      opts.classList.add('revealed');
-      opts.querySelectorAll('.rf-quiz-option').forEach(function(lbl) {
-        var idx = parseInt(lbl.dataset.idx);
-        if (idx === q.answer) lbl.classList.add('correct');
-        else if (selectedAnswers.indexOf(idx) > -1) lbl.classList.add('wrong');
-      });
+  // ── Helpers ──
+  function shuffle(a) {
+    var b = a.slice();
+    for (var i = b.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = b[i]; b[i] = b[j]; b[j] = t;
     }
-    fb.className = 'rf-quiz-feedback ' + (correct ? 'correct' : 'wrong');
-    fb.textContent = correct ? 'Correct.' : 'Not quite. The answer is: ' + q.options[q.answer];
-    fb.style.display = 'block';
-  } else if (q.type === 'multi') {
-    var ss = selectedAnswers.slice().sort().join(',');
-    var as = q.answers.slice().sort().join(',');
-    correct = ss === as;
-    if (opts) {
-      opts.classList.add('revealed');
-      opts.querySelectorAll('.rf-quiz-option').forEach(function(lbl) {
-        var idx = parseInt(lbl.dataset.idx);
-        if (q.answers.indexOf(idx) > -1) lbl.classList.add('correct');
-        else if (selectedAnswers.indexOf(idx) > -1) lbl.classList.add('wrong');
-      });
-    }
-    fb.className = 'rf-quiz-feedback ' + (correct ? 'correct' : 'wrong');
-    fb.textContent = correct ? 'Correct.' : 'Not quite. Correct: ' + q.answers.map(function(i) { return q.options[i]; }).join(', ');
-    fb.style.display = 'block';
-  } else if (q.type === 'short') {
-    var val = document.getElementById('rf-short').value.toLowerCase().trim();
-    correct = q.keywords.some(function(kw) { return val.indexOf(kw.toLowerCase()) > -1; });
-    fb.className = 'rf-quiz-feedback ' + (correct ? 'correct' : 'wrong');
-    fb.textContent = correct ? 'Good answer.' : 'Not quite. Think about: ' + q.keywords.join(', ');
-    fb.style.display = 'block';
-    document.getElementById('rf-short').disabled = true;
+    return b;
+  }
+  function isLocked() {
+    try { return Date.now() < parseInt(localStorage.getItem(KEY_LOCKOUT) || '0'); } catch(e) { return false; }
+  }
+  function lockRemaining() {
+    try { return Math.max(0, parseInt(localStorage.getItem(KEY_LOCKOUT) || '0') - Date.now()); } catch(e) { return 0; }
+  }
+  function setLock() {
+    try { localStorage.setItem(KEY_LOCKOUT, Date.now() + LOCKOUT_MS); } catch(e) {}
+  }
+  function hasCredited() {
+    try { return !!localStorage.getItem(KEY_CREDIT); } catch(e) { return false; }
+  }
+  function markCredit() {
+    try { localStorage.setItem(KEY_CREDIT, '1'); } catch(e) {}
   }
 
-  if (correct) score++;
-  submitBtn.disabled = false;
-  submitBtn.textContent = currentQ < 2 ? 'Next question' : 'See results';
-});
+  if (hasCredited()) startBtn.textContent = 'Take it again';
 
-function finishQuiz() {
-  modalEl.style.display = 'none';
-  if (score === 3) {
-    markCredit();
-    successEl.style.display = 'flex';
-  } else {
-    setLock(); showLockout();
+  startBtn.addEventListener('click', function() {
+    if (isLocked()) { showLockout(); return; }
+    questions = shuffle(RF_QUESTIONS).slice(0, 3);
+    currentQ = 0; score = 0;
+    modalEl.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    renderQ();
+  });
+
+  function renderQ() {
+    var q = questions[currentQ];
+    progressFill.style.width = ((currentQ / 3) * 100) + '%';
+    counterEl.textContent = 'Question ' + (currentQ + 1) + ' of 3';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submit answer';
+    selectedAnswers = [];
+
+    var h = '<p class="rf-quiz-q-text">' + q.q + '</p>';
+    if (q.type === 'mc') {
+      h += '<div class="rf-quiz-options" id="rf-opts">';
+      q.options.forEach(function(opt, i) {
+        h += '<label class="rf-quiz-option" data-idx="' + i + '"><input type="radio" name="rfo" value="' + i + '"> ' + opt + '</label>';
+      });
+      h += '</div>';
+    } else if (q.type === 'multi') {
+      h += '<p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--alpine-400);margin-bottom:12px;font-family:sans-serif;">Select all that apply</p>';
+      h += '<div class="rf-quiz-options" id="rf-opts">';
+      q.options.forEach(function(opt, i) {
+        h += '<label class="rf-quiz-option" data-idx="' + i + '"><input type="checkbox" name="rfo" value="' + i + '"> ' + opt + '</label>';
+      });
+      h += '</div>';
+    } else if (q.type === 'short') {
+      h += '<input type="text" class="rf-quiz-input" id="rf-short" placeholder="Type your answer..." autocomplete="off">';
+      if (q.hint) h += '<p style="font-size:11px;color:var(--alpine-400);margin-top:8px;">' + q.hint + '</p>';
+    }
+    h += '<div class="rf-quiz-feedback" id="rf-fb"></div>';
+    qArea.innerHTML = h;
+
+    if (q.type === 'mc') {
+      qArea.querySelectorAll('.rf-quiz-option').forEach(function(lbl) {
+        lbl.addEventListener('click', function() {
+          qArea.querySelectorAll('.rf-quiz-option').forEach(function(l) { l.classList.remove('selected'); });
+          lbl.classList.add('selected'); lbl.querySelector('input').checked = true;
+          selectedAnswers = [parseInt(lbl.dataset.idx)]; submitBtn.disabled = false;
+        });
+      });
+    } else if (q.type === 'multi') {
+      qArea.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+          cb.closest('.rf-quiz-option').classList.toggle('selected', cb.checked);
+          selectedAnswers = [];
+          qArea.querySelectorAll('input[type="checkbox"]:checked').forEach(function(c) { selectedAnswers.push(parseInt(c.value)); });
+          submitBtn.disabled = selectedAnswers.length === 0;
+        });
+      });
+    } else if (q.type === 'short') {
+      var inp = document.getElementById('rf-short');
+      if (inp) inp.addEventListener('input', function() { submitBtn.disabled = inp.value.trim().length < 2; });
+    }
   }
-}
 
-function showLockout() {
-  lockoutEl.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-  runCountdown();
-}
-function runCountdown() {
-  if (lockoutTimer) clearInterval(lockoutTimer);
-  lockoutTimer = setInterval(function() {
-    var rem = lockRemaining();
-    if (rem <= 0) { clearInterval(lockoutTimer); countdownEl.textContent = '0:00'; document.getElementById('quiz-lockout-close').textContent = 'Try again'; return; }
-    var m = Math.floor(rem / 60000), s = Math.floor((rem % 60000) / 1000);
-    countdownEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
-  }, 500);
-}
-document.getElementById('quiz-lockout-close').addEventListener('click', function() {
-  lockoutEl.style.display = 'none';
-  document.body.style.overflow = '';
-  if (lockoutTimer) clearInterval(lockoutTimer);
-});
-document.getElementById('quiz-close-success').addEventListener('click', function() {
-  successEl.style.display = 'none';
-  document.body.style.overflow = '';
-  if (hasCredited() && startBtn) startBtn.textContent = 'Take it again';
-});
-modalEl.addEventListener('click', function(e) {
-  if (e.target === modalEl) { modalEl.style.display = 'none'; document.body.style.overflow = ''; }
-});
+  submitBtn.addEventListener('click', function() {
+    if (submitBtn.textContent === 'Next question' || submitBtn.textContent === 'See results') {
+      currentQ++;
+      if (currentQ < 3) renderQ(); else finishQuiz();
+      return;
+    }
+    var q = questions[currentQ];
+    var fb = document.getElementById('rf-fb');
+    var opts = document.getElementById('rf-opts');
+    var correct = false;
 
-// ════════════════════════════════════════════
-// OPTION D — triple-click Cameron's photo
-// ════════════════════════════════════════════
-var rfEggTip = document.createElement('div');
-rfEggTip.style.cssText = 'display:none;position:fixed;z-index:3000;background:var(--alpine-900);border:1px solid var(--marigold);padding:10px 16px;font-family:\'Work Sans\',sans-serif;font-size:12px;font-weight:600;color:var(--marigold);max-width:240px;text-align:center;line-height:1.4;box-shadow:0 8px 28px rgba(0,0,0,0.4);pointer-events:none;';
-rfEggTip.textContent = "That's the instructor. He wrote this brief. No pressure.";
-document.body.appendChild(rfEggTip);
-
-document.querySelectorAll('.stakeholder-avatar img').forEach(function(img) {
-  if (img.src && img.src.indexOf('Cameron') > -1 || img.alt && img.alt.indexOf('Cameron') > -1) {
-    img.style.cursor = 'pointer';
-    var clicks = 0, clickTimer = null;
-    img.addEventListener('click', function(e) {
-      clicks++;
-      if (clickTimer) clearTimeout(clickTimer);
-      clickTimer = setTimeout(function() { clicks = 0; }, 600);
-      if (clicks >= 3) {
-        clicks = 0;
-        var rect = img.getBoundingClientRect();
-        rfEggTip.style.display = 'block';
-        rfEggTip.style.top = (rect.top + window.scrollY - 70) + 'px';
-        rfEggTip.style.left = (rect.left + rect.width / 2 - 120) + 'px';
-        setTimeout(function() { rfEggTip.style.display = 'none'; }, 3500);
+    if (q.type === 'mc') {
+      correct = selectedAnswers[0] === q.answer;
+      if (opts) {
+        opts.classList.add('revealed');
+        opts.querySelectorAll('.rf-quiz-option').forEach(function(lbl) {
+          var idx = parseInt(lbl.dataset.idx);
+          if (idx === q.answer) lbl.classList.add('correct');
+          else if (selectedAnswers.indexOf(idx) > -1) lbl.classList.add('wrong');
+        });
       }
-    });
+      if (fb) { fb.className = 'rf-quiz-feedback ' + (correct ? 'correct' : 'wrong'); fb.textContent = correct ? 'Correct.' : 'Not quite. The answer is: ' + q.options[q.answer]; fb.style.display = 'block'; }
+    } else if (q.type === 'multi') {
+      var ss = selectedAnswers.slice().sort().join(',');
+      var as = q.answers.slice().sort().join(',');
+      correct = ss === as;
+      if (opts) {
+        opts.classList.add('revealed');
+        opts.querySelectorAll('.rf-quiz-option').forEach(function(lbl) {
+          var idx = parseInt(lbl.dataset.idx);
+          if (q.answers.indexOf(idx) > -1) lbl.classList.add('correct');
+          else if (selectedAnswers.indexOf(idx) > -1) lbl.classList.add('wrong');
+        });
+      }
+      if (fb) { fb.className = 'rf-quiz-feedback ' + (correct ? 'correct' : 'wrong'); fb.textContent = correct ? 'Correct.' : 'Not quite. Correct: ' + q.answers.map(function(i) { return q.options[i]; }).join(', '); fb.style.display = 'block'; }
+    } else if (q.type === 'short') {
+      var val = (document.getElementById('rf-short') || {value:''}).value.toLowerCase().trim();
+      correct = q.keywords.some(function(kw) { return val.indexOf(kw.toLowerCase()) > -1; });
+      if (fb) { fb.className = 'rf-quiz-feedback ' + (correct ? 'correct' : 'wrong'); fb.textContent = correct ? 'Good answer.' : 'Not quite. Think about: ' + q.keywords.join(', '); fb.style.display = 'block'; }
+      var si = document.getElementById('rf-short');
+      if (si) si.disabled = true;
+    }
+
+    if (correct) score++;
+    submitBtn.disabled = false;
+    submitBtn.textContent = currentQ < 2 ? 'Next question' : 'See results';
+  });
+
+  function finishQuiz() {
+    modalEl.style.display = 'none';
+    if (score === 3) { markCredit(); successEl.style.display = 'flex'; }
+    else { setLock(); showLockout(); }
   }
-});
+
+  function showLockout() {
+    lockoutEl.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    runCountdown();
+  }
+  function runCountdown() {
+    if (lockoutTimer) clearInterval(lockoutTimer);
+    lockoutTimer = setInterval(function() {
+      var rem = lockRemaining();
+      if (rem <= 0) {
+        clearInterval(lockoutTimer);
+        countdownEl.textContent = '0:00';
+        var closeBtn = document.getElementById('quiz-lockout-close');
+        if (closeBtn) closeBtn.textContent = 'Try again';
+        return;
+      }
+      var m = Math.floor(rem / 60000), s = Math.floor((rem % 60000) / 1000);
+      countdownEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    }, 500);
+  }
+
+  // ── Always allow closing lockout ──
+  document.getElementById('quiz-lockout-close').addEventListener('click', function() {
+    lockoutEl.style.display = 'none';
+    document.body.style.overflow = '';
+    if (lockoutTimer) clearInterval(lockoutTimer);
+  });
+
+  document.getElementById('quiz-close-success').addEventListener('click', function() {
+    successEl.style.display = 'none';
+    document.body.style.overflow = '';
+    if (hasCredited()) startBtn.textContent = 'Take it again';
+  });
+
+  modalEl.addEventListener('click', function(e) {
+    if (e.target === modalEl) { modalEl.style.display = 'none'; document.body.style.overflow = ''; }
+  });
+
+  // ── Cameron easter egg ──
+  var rfEggTip = document.createElement('div');
+  rfEggTip.style.cssText = "display:none;position:fixed;z-index:3000;background:var(--alpine-900);border:1px solid var(--marigold);padding:10px 16px;font-family:'Work Sans',sans-serif;font-size:12px;font-weight:600;color:var(--marigold);max-width:240px;text-align:center;line-height:1.4;box-shadow:0 8px 28px rgba(0,0,0,0.4);pointer-events:none;";
+  rfEggTip.textContent = "That's the instructor. He wrote this brief. No pressure.";
+  document.body.appendChild(rfEggTip);
+
+  document.querySelectorAll('.stakeholder-avatar img').forEach(function(img) {
+    if ((img.src && img.src.indexOf('Cameron') > -1) || (img.alt && img.alt.indexOf('Cameron') > -1)) {
+      img.style.cursor = 'pointer';
+      var clicks = 0, clickTimer = null;
+      img.addEventListener('click', function() {
+        clicks++;
+        if (clickTimer) clearTimeout(clickTimer);
+        clickTimer = setTimeout(function() { clicks = 0; }, 600);
+        if (clicks >= 3) {
+          clicks = 0;
+          var rect = img.getBoundingClientRect();
+          rfEggTip.style.display = 'block';
+          rfEggTip.style.top = (rect.top + window.scrollY - 70) + 'px';
+          rfEggTip.style.left = (rect.left + rect.width / 2 - 120) + 'px';
+          setTimeout(function() { rfEggTip.style.display = 'none'; }, 3500);
+        }
+      });
+    }
+  });
+
+} // end initRFQuiz
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initRFQuiz);
+} else {
+  initRFQuiz();
+}
 
 })();
 </script>
