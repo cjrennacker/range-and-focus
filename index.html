@@ -795,7 +795,7 @@ footer .footer-meta { font-size: 11px; font-weight: 500; text-transform: upperca
   .site-header-inner { height: auto; flex-direction: column; padding: 16px 24px; gap: 0; }
   .site-nav { flex-wrap: wrap; justify-content: center; height: auto; gap: 0; }
   .site-nav > li > a, .site-nav > li > button { padding: 10px 12px; height: auto; }
-  .nav-dropdown { position: static !important; width: 100%; box-shadow: none; border-top: 2px solid var(--canyon); }
+  .nav-dropdown { position: static !important; width: 100%; box-shadow: none; }
   .header-right { display: none; }
 }
 
@@ -863,11 +863,27 @@ img[data-lightbox] { cursor: zoom-in; }
 .artist-images { display: block; }
 .artist-images img { width: 100%; height: auto; object-fit: contain; display: block; border-radius: 0; }
 
-/* ── RESPONSIVE ── */
+
+/* ══ AUDIENCE GRID — stacks image below text on mobile ══ */
+.audience-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+}
+
+/* ══ MOBILE BREAKPOINTS ══ */
 @media (max-width: 960px) {
+  .site-header-inner { height: auto; flex-direction: column; padding: 16px 24px; gap: 0; }
+  .site-nav { flex-wrap: wrap; justify-content: center; height: auto; gap: 0; }
+  .site-nav > li > a, .site-nav > li > button { padding: 10px 12px; height: auto; }
+  .nav-dropdown { position: static !important; width: 100%; box-shadow: none; border-top: 1px solid rgba(255,255,255,0.1); }
+  .header-right { display: none; }
+  /* nav only shows when aria-expanded=true */
+  .site-nav > li .nav-dropdown { display: none; }
+  .site-nav > li > button[aria-expanded="true"] + .nav-dropdown { display: block; }
   .hero-inner { grid-template-columns: 1fr; }
   .hero-image { height: 50vh; }
-  .hero-image::after { background: linear-gradient(to bottom, var(--bg-dark) 0%, transparent 30%); }
   .trust-grid { grid-template-columns: repeat(2, 1fr); }
   .brand-story-grid { grid-template-columns: 1fr; gap: 60px; }
   .scope-item { grid-template-columns: 1fr; gap: 16px; }
@@ -878,162 +894,44 @@ img[data-lightbox] { cursor: zoom-in; }
   .formats-grid { grid-template-columns: 1fr; }
   .brand-grid { grid-template-columns: 1fr; }
   .ratio-visual-grid { grid-template-columns: repeat(2, 1fr); }
-  .stakeholder-card { grid-template-columns: 80px 1fr; gap: 20px; padding: 24px 0; }
-  .stakeholder-info { min-width: 0; overflow-wrap: break-word; word-wrap: break-word; }
-  .stakeholder-name { font-size: 16px !important; }
-  .stakeholder-role { font-size: 10px !important; }
-  .stakeholder-sub { font-size: 12px !important; }
+  /* Stakeholder: smaller avatar so text has room */
+  .stakeholder-card { grid-template-columns: 72px 1fr; gap: 16px; padding: 24px 0; }
+  .stakeholder-avatar { width: 72px !important; height: 72px !important; }
+  .stakeholder-info { min-width: 0; }
+  .stakeholder-name { font-size: 15px !important; }
+  .stakeholder-role { font-size: 9px !important; letter-spacing: 0.06em !important; line-height: 1.4 !important; }
+  .stakeholder-sub { font-size: 11px !important; }
   .assets-grid { grid-template-columns: repeat(2, 1fr); }
   .timeline-item { grid-template-columns: 110px 44px 1fr; }
   .container { padding: 0 24px; }
   .container--narrow { padding: 0 24px; }
   .artist-grid { grid-template-columns: 1fr; gap: 48px; }
+  .audience-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .granite-img { aspect-ratio: 16/9 !important; width: 100% !important; }
 }
 
-/* ═══════════════════════════════════
-   MOBILE-FIRST RESPONSIVE ADDITIONS
-   ═══════════════════════════════════ */
-
-/* ── NAV: touch-friendly dropdown ── */
-.site-nav > li > button[aria-expanded="true"] + .nav-dropdown,
-.site-nav > li > button[aria-expanded="true"] + ul.nav-dropdown {
-  display: block;
-}
-
-@media (max-width: 960px) {
-  /* Nav becomes tap-to-open instead of hover */
-  .site-nav > li:hover .nav-dropdown,
-  .site-nav > li:focus-within .nav-dropdown {
-    display: none; /* disable hover on mobile */
-  }
-  .site-nav > li > button[aria-expanded="true"] + .nav-dropdown,
-  .site-nav > li > button[aria-expanded="true"] + ul.nav-dropdown {
-    display: block;
-  }
-  .nav-dropdown {
-    position: static !important;
-    width: 100%; border-top: 2px solid;
-    box-shadow: none; min-width: 0;
-    padding: 4px 0;
-  }
-  .nav-dropdown li a {
-    padding: 10px 16px; font-size: 12px;
-  }
-}
-
-/* ── LOADER: prevent phrase height jumping ── */
-#loader-main {
-  width: min(480px, 90vw) !important;
-  padding: 0 20px !important;
-}
-.loader-phrase {
-  min-height: 2.4em !important;
-  overflow: hidden !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* ── HERO: single-column on small screens ── */
-@media (max-width: 720px) {
-  .hero { grid-template-columns: 1fr !important; min-height: auto !important; }
-  .hero-text { padding: 72px 24px 60px !important; }
-  .hero-visual, .hero-image { min-height: 280px; }
-  .hero-visual-inner { padding: 40px 24px !important; gap: 20px !important; }
-  .hero-stat-number { font-size: 36px !important; }
-}
-
-/* ── RESPONSIVE TABLE: card layout on mobile ── */
-@media (max-width: 640px) {
-  .comp-table, .comp-table thead,
-  .comp-table tbody, .comp-table th,
-  .comp-table td, .comp-table tr {
-    display: block;
-    width: 100%;
-  }
-  .comp-table thead { display: none; }
-  .comp-table tr {
-    margin-bottom: 16px;
-    border: 1px solid var(--gray4, rgba(255,255,255,0.1));
-    padding: 16px;
-  }
-  .comp-table td {
-    border: none !important;
-    padding: 8px 0 !important;
-    font-size: 13px;
-  }
-  .comp-table td::before {
-    content: attr(data-label);
-    display: block;
-    font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.15em;
-    opacity: 0.5; margin-bottom: 4px;
-  }
-  /* comp-aside hide on mobile — not enough room */
-  .comp-aside { display: none !important; }
-}
-
-/* ── GRIDS: smaller breakpoint catch-all ── */
 @media (max-width: 600px) {
-  .granite-img { aspect-ratio: 16/9 !important; }
-  .swot-grid { grid-template-columns: 1fr !important; gap: 2px !important; }
-  .rec-grid  { grid-template-columns: 1fr !important; }
-  .del-grid  { grid-template-columns: 1fr !important; }
-  .metrics-grid { grid-template-columns: 1fr !important; }
-  .formats-grid { grid-template-columns: 1fr !important; }
-  .brand-grid   { grid-template-columns: 1fr !important; }
-  .artist-grid  { grid-template-columns: 1fr !important; }
-  .assets-grid  { grid-template-columns: 1fr !important; }
-  .two-col, .two-col--60 { grid-template-columns: 1fr !important; }
-  .audience-section .two-col--60 > div:last-child img { aspect-ratio: 16/9 !important; }
-  .stakeholder-grid { grid-template-columns: 1fr !important; }
-
-  /* Section padding reduction */
-  .section, section { padding: 56px 0 !important; }
-  .container, .container--narrow { padding: 0 20px !important; }
-
-  /* Typography scale */
+  .container, .container--narrow { padding: 0 20px; }
   h2 { font-size: clamp(28px, 8vw, 44px) !important; }
-  .hero-headline { font-size: clamp(40px, 12vw, 72px) !important; }
-
-  /* ExL cycle stacks */
-  .exl-cycle, .ExL-cycle {
-    grid-template-columns: 1fr !important;
-    padding: 40px 20px !important;
-  }
-  .exl-cycle-arrow, .ExL-cycle-arrow { display: none !important; }
-
-  /* Photo stacks */
-  .exl-photo-stack { margin-bottom: 40px !important; }
-  .exl-photo-accent { display: none !important; }
-  .exl-photo-main { height: 240px !important; }
-  .artist-images img { height: auto !important; }
-
-  /* Brand story */
-  .brand-story-grid { grid-template-columns: 1fr !important; }
-  .brand-story-images { display: none; } /* hide decorative stacked photos on tiny screens */
-
-  /* Timeline */
-  .timeline-item { grid-template-columns: 80px 32px 1fr !important; }
-  .timeline-label { font-size: 10px !important; padding: 18px 12px 18px 0 !important; }
-
-  /* Footer */
+  .stakeholder-card { grid-template-columns: 56px 1fr; gap: 12px; }
+  .stakeholder-avatar { width: 56px !important; height: 56px !important; }
+  .stakeholder-name { font-size: 14px !important; }
+  .stakeholder-sub { display: none; }
+  .formats-grid, .brand-grid, .metrics-grid { grid-template-columns: 1fr !important; }
+  .audience-grid { grid-template-columns: 1fr !important; }
+  .granite-img { aspect-ratio: 16/9 !important; }
   .footer-inner { flex-direction: column; padding: 0 20px !important; }
   .footer-bottom { padding: 20px 20px 0 !important; }
-
-  /* Loader success text */
-  .loader-success-text { font-size: 28px !important; }
+  #loader-main { width: min(480px, 90vw) !important; padding: 0 20px !important; }
+  .loader-phrase { min-height: 2.4em !important; overflow: hidden !important; display: flex !important; align-items: center !important; justify-content: center !important; }
 }
 
-/* ── VERY SMALL: 390px and under ── */
 @media (max-width: 390px) {
-  .hero-text { padding: 56px 16px 48px !important; }
-  .container, .container--narrow { padding: 0 16px !important; }
-  .timeline-item { grid-template-columns: 60px 28px 1fr !important; }
-  .timeline-label { font-size: 9px !important; }
-  .hero-tags { gap: 6px !important; }
-  .hero-tag { font-size: 9px !important; padding: 4px 10px !important; }
+  .container, .container--narrow { padding: 0 16px; }
+  .stakeholder-card { grid-template-columns: 48px 1fr; gap: 10px; }
+  .stakeholder-avatar { width: 48px !important; height: 48px !important; }
 }
+
 </style>
 </head>
 <body>
@@ -1227,7 +1125,7 @@ img[data-lightbox] { cursor: zoom-in; }
 <!-- ══════════ THE AUDIENCE ══════════ -->
 <section class="dark-section" id="audience">
   <div class="container">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center;">
+    <div class="audience-grid">
       <div>
         <span class="eyebrow">The audience</span>
         <h2>Our customers are "seekers."</h2>
@@ -1254,7 +1152,7 @@ img[data-lightbox] { cursor: zoom-in; }
         </div>
       </div>
       <div>
-        <img src="https://images.squarespace-cdn.com/content/v1/60bd7db0fbad083dee475913/b2cde0b0-3189-4d32-bb95-a04dcbf45e1f/Granite+Ghost+II_Banff+National+Park_Alberta_Canada_Rennacker+Art-9503_20230926.jpg?format=2500w" alt="Granite Ghost II — Banff National Park, Alberta, Canada" style="width:100%; aspect-ratio:3/4; object-fit:cover; display:block; filter:brightness(0.82);" class="granite-img">
+        <img src="https://images.squarespace-cdn.com/content/v1/60bd7db0fbad083dee475913/b2cde0b0-3189-4d32-bb95-a04dcbf45e1f/Granite+Ghost+II_Banff+National+Park_Alberta_Canada_Rennacker+Art-9503_20230926.jpg?format=2500w" alt="Granite Ghost II — Banff National Park, Alberta, Canada" class="granite-img" style="width:100%; aspect-ratio:3/4; object-fit:cover; display:block; filter:brightness(0.82);">
       </div>
     </div>
   </div>
@@ -1752,49 +1650,49 @@ img[data-lightbox] { cursor: zoom-in; }
       </thead>
       <tbody>
         <tr>
-          <td data-label="Institution">
+          <td>
             <div class="comp-name">Peter Lik</div>
             <a href="https://www.lik.com" target="_blank" rel="noopener" class="comp-url">lik.com →</a>
             <div><span class="comp-tag">Primary</span></div>
           </td>
-          <td data-label="What to study">High-end gallery aesthetic, strong scarcity messaging, international presence, established collector base<span class="comp-aside">Study the gallery-to-e-commerce tension. It's the same problem you're solving.</span></td>
-          <td data-label="Where the gap likely is">Research this heavily! Your team's observations will be very valuable</td>
+          <td>High-end gallery aesthetic, strong scarcity messaging, international presence, established collector base<span class="comp-aside">Study the gallery-to-e-commerce tension. It's the same problem you're solving.</span></td>
+          <td>Research this heavily! Your team's observations will be very valuable</td>
         </tr>
         <tr>
-          <td data-label="Institution">
+          <td>
             <div class="comp-name">House of Spoils</div>
             <a href="https://www.houseofspoils.com" target="_blank" rel="noopener" class="comp-url">houseofspoils.com →</a>
             <div><span class="comp-tag">Primary</span></div>
           </td>
-          <td data-label="What to study">Independent fine art, strong editorial tone, distinctive brand identity, engaged community<span class="comp-aside">Voice consistency. Notice how every word on the site sounds like the same person wrote it.</span></td>
-          <td data-label="Where the gap likely is">Research this heavily! Your team's observations will be very valuable</td>
+          <td>Independent fine art, strong editorial tone, distinctive brand identity, engaged community<span class="comp-aside">Voice consistency. Notice how every word on the site sounds like the same person wrote it.</span></td>
+          <td>Research this heavily! Your team's observations will be very valuable</td>
         </tr>
         <tr>
-          <td data-label="Institution">
+          <td>
             <div class="comp-name">Helm + Oar</div>
             <a href="https://www.helmandoar.com" target="_blank" rel="noopener" class="comp-url">helmandoar.com →</a><br>
 			<div><span class="comp-tag">Secondary</span></div>
           </td>
-          <td data-label="What to study">Outdoor lifestyle, photography-driven e-commerce, strong editorial storytelling<span class="comp-aside">Look at how they sequence story and product. Not accident — architecture.</span></td>
-          <td data-label="Where the gap likely is">Research this heavily! Your team's observations will be very valuable</td>
+          <td>Outdoor lifestyle, photography-driven e-commerce, strong editorial storytelling<span class="comp-aside">Look at how they sequence story and product. Not accident — architecture.</span></td>
+          <td>Research this heavily! Your team's observations will be very valuable</td>
         </tr>
         <tr>
-          <td data-label="Institution">
+          <td>
             <div class="comp-name">Restoration Hardware</div>
             <a href="https://www.rh.com" target="_blank" rel="noopener" class="comp-url">rh.com →</a><br>
 			<div><span class="comp-tag">Adjecent</span></div>
           </td>
-          <td data-label="What to study">Aspirational home decor, luxury e-commerce UX, large-format art integration<span class="comp-aside">They make a sofa feel like a lifestyle decision. Range &amp; Focus prints should feel the same way.</span></td>
-          <td data-label="Where the gap likely is">Research this heavily! Your team's observations will be very valuable</td>
+          <td>Aspirational home decor, luxury e-commerce UX, large-format art integration<span class="comp-aside">They make a sofa feel like a lifestyle decision. Range &amp; Focus prints should feel the same way.</span></td>
+          <td>Research this heavily! Your team's observations will be very valuable</td>
         </tr>
         <tr>
-          <td data-label="Institution">
+          <td>
             <div class="comp-name">Ranger Station</div>
             <a href="https://www.rangerstation.co" target="_blank" rel="noopener" class="comp-url">rangerstation.co →</a>
 			<div><span class="comp-tag">Love this brand!</span></div>
           </td>
-          <td data-label="What to study">National park-inspired brand, strong community identity, lifestyle-first design<span class="comp-aside">Community before commerce. The brand earns the sale by building the world first.</span></td>
-          <td data-label="Where the gap likely is">Research this heavily! Your team's observations will be very valuable</td>
+          <td>National park-inspired brand, strong community identity, lifestyle-first design<span class="comp-aside">Community before commerce. The brand earns the sale by building the world first.</span></td>
+          <td>Research this heavily! Your team's observations will be very valuable</td>
         </tr>
       </tbody>
     </table>
@@ -2027,7 +1925,6 @@ img[data-lightbox] { cursor: zoom-in; }
   var successTxt = document.getElementById('loader-success-text');
 
   // Pick a random success message
-  // Show loader only once per session
   if (sessionStorage.getItem('rf_loaded')) {
     loader.classList.add('hidden');
     document.body.style.overflow = '';
@@ -2247,8 +2144,8 @@ img[data-lightbox] { cursor: zoom-in; }
   });
 
   // Wire up brand story images
-  document.querySelectorAll('.brand-story-images img, .gallery-carousel--footer img:not([aria-hidden]), .auction-image img, .dark-section img').forEach(function(img) {
-    if (!img.hasAttribute('data-lightbox')) {
+  document.querySelectorAll('.brand-story-images img, .gallery-carousel--footer img:not([aria-hidden]), .auction-image img, .dark-section img:not(.stakeholder-avatar img)').forEach(function(img) {
+    if (!img.closest('.stakeholder-avatar') && !img.hasAttribute('data-lightbox')) {
       img.setAttribute('data-lightbox', '');
       img.addEventListener('click', function() {
         openLightbox(img.src, img.alt, img.alt);
@@ -2263,43 +2160,16 @@ img[data-lightbox] { cursor: zoom-in; }
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeLightbox();
   });
-
-  // ── MOBILE NAV: tap-to-toggle dropdowns ──
-  document.querySelectorAll('.site-nav > li > button').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var isOpen = btn.getAttribute('aria-expanded') === 'true';
-      document.querySelectorAll('.site-nav > li > button[aria-expanded="true"]').forEach(function(other) {
-        if (other !== btn) other.setAttribute('aria-expanded', 'false');
-      });
-      btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
-    });
-  });
-  document.querySelectorAll('.nav-dropdown a').forEach(function(link) {
-    link.addEventListener('click', function() {
-      document.querySelectorAll('.site-nav > li > button').forEach(function(b) {
-        b.setAttribute('aria-expanded', 'false');
-      });
-    });
-  });
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.site-nav')) {
-      document.querySelectorAll('.site-nav > li > button').forEach(function(b) {
-        b.setAttribute('aria-expanded', 'false');
-      });
-    }
-  });
 })();
 </script>
-
 <!-- ══════════ QUIZ TRIGGER ══════════ -->
 <div id="quiz-trigger" style="display:none;">
   <div class="rf-quiz-trigger-inner">
     <img src="https://images.squarespace-cdn.com/content/v1/64bac4bc173fe572efa4830f/a7fb3d88-2c6e-4bd0-a103-e7bfa2c99d12/20251213_Cameron-Rennacker_Rennacker-Studio-Headshots_0204_Final-head-sm.jpg?format=1500w"
          alt="Cameron Rennacker" class="rf-quiz-avatar">
     <div>
-      <p class="rf-quiz-trigger-label">Think you're ready?</p>
-      <p class="rf-quiz-trigger-sub">Three questions drawn from the brief. Get all three right and earn extra credit.</p>
+      <p class="rf-quiz-trigger-label">Think you&#39;re ready?</p>
+      <p class="rf-quiz-trigger-sub">Three questions from the brief. Get all three right and earn extra credit.</p>
       <button id="quiz-start-btn" class="rf-quiz-cta">Take the quiz</button>
     </div>
   </div>
@@ -2314,9 +2184,7 @@ img[data-lightbox] { cursor: zoom-in; }
       <span class="rf-quiz-counter" id="quiz-counter">Question 1 of 3</span>
     </div>
     <div id="quiz-question-area"></div>
-    <div class="rf-quiz-footer">
-      <button id="quiz-submit-btn" class="rf-quiz-cta" disabled>Submit answer</button>
-    </div>
+    <div class="rf-quiz-footer"><button id="quiz-submit-btn" class="rf-quiz-cta" disabled>Submit answer</button></div>
   </div>
 </div>
 
@@ -2324,18 +2192,16 @@ img[data-lightbox] { cursor: zoom-in; }
 <div id="quiz-success" role="dialog" aria-modal="true" style="display:none;">
   <div class="rf-quiz-badge-card">
     <div class="rf-quiz-badge-wren" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90">
-        <path fill="#ca9c37" d="M20.3,80c.4.2.8.4,1.4.4,1.9,0,5.3-1.9,12.3-9.8,1.4.7,2.8,1.2,4.2,1.6l-3.3,6.7c0,0,0,.2,0,.2,0,.2-.1.4-.1.6,0,.7.5,1.2,1.2,1.2h8.9c.7,0,1.2-.5,1.2-1.2s-.5-1.2-1.2-1.2h-7s2.9-5.9,2.9-5.9c2.1.3,4.2.2,6.3-.1l4.5,6h-2.3c-.7,0-1.2.5-1.2,1.2s.5,1.2,1.2,1.2h11c.7,0,1.2-.5,1.2-1.2s-.5-1.2-1.2-1.2h-5.8s-5-6.6-5-6.6c3.2-1,6.3-2.8,9-5.4,6.9-6.7,12.1-19.9,4.1-35-.7-1.8-.8-2.9-.4-3.7.5-1,1.9-1.9,4.3-2.6.4-.1.6-.4.8-.7.1-.4,0-.7-.1-1.1-.8-1.1-2.7-2.2-3.8-2.6-.8-1.3-3-4.4-4.4-5-.3-.1-.9-.3-1.6-.4.9-2.1,2.8-3.7,5.1-4.1,2.2-.4,5.4.5,5.7,3,.3,2,3.2,1.5,2.8-.4-.7-4-5.4-5.6-8.9-4.6-3,.7-5.4,3.1-6.3,6-2.5-.1-5.9.3-8.5,2.4-3.1,2.4-4.7,5.3-4.7,8.3s0,2.4,0,3.9c0,.9,0,1.8,0,2.3-7,5.2-15.4,14.8-16.5,31.5-.9,1.9-2.6,5.6-4,8.5-1.1,2.4-2.1,4.5-2.3,4.8-.4.8-.2,2.2.8,2.9Z"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90"><path fill="var(--limestone)" opacity="0.5" d="M20.3,80c.4.2.8.4,1.4.4,1.9,0,5.3-1.9,12.3-9.8,1.4.7,2.8,1.2,4.2,1.6l-3.3,6.7c0,0,0,.2,0,.2,0,.2-.1.4-.1.6,0,.7.5,1.2,1.2,1.2h8.9c.7,0,1.2-.5,1.2-1.2s-.5-1.2-1.2-1.2h-7s2.9-5.9,2.9-5.9c2.1.3,4.2.2,6.3-.1l4.5,6h-2.3c-.7,0-1.2.5-1.2,1.2s.5,1.2,1.2,1.2h11c.7,0,1.2-.5,1.2-1.2s-.5-1.2-1.2-1.2h-5.8s-5-6.6-5-6.6c3.2-1,6.3-2.8,9-5.4,6.9-6.7,12.1-19.9,4.1-35-.7-1.8-.8-2.9-.4-3.7.5-1,1.9-1.9,4.3-2.6.4-.1.6-.4.8-.7.1-.4,0-.7-.1-1.1-.8-1.1-2.7-2.2-3.8-2.6-.8-1.3-3-4.4-4.4-5-.3-.1-.9-.3-1.6-.4.9-2.1,2.8-3.7,5.1-4.1,2.2-.4,5.4.5,5.7,3,.3,2,3.2,1.5,2.8-.4-.7-4-5.4-5.6-8.9-4.6-3,.7-5.4,3.1-6.3,6-2.5-.1-5.9.3-8.5,2.4-3.1,2.4-4.7,5.3-4.7,8.3s0,2.4,0,3.9c0,.9,0,1.8,0,2.3-7,5.2-15.4,14.8-16.5,31.5-.9,1.9-2.6,5.6-4,8.5-1.1,2.4-2.1,4.5-2.3,4.8-.4.8-.2,2.2.8,2.9Z"/></svg>
     </div>
     <img src="https://images.squarespace-cdn.com/content/v1/64bac4bc173fe572efa4830f/a7fb3d88-2c6e-4bd0-a103-e7bfa2c99d12/20251213_Cameron-Rennacker_Rennacker-Studio-Headshots_0204_Final-head-sm.jpg?format=1500w"
          alt="Cameron Rennacker" class="rf-quiz-badge-avatar">
     <div class="rf-quiz-badge-title">Congratulations!</div>
-    <div class="rf-quiz-badge-subtitle">You've been awarded extra credit!</div>
+    <div class="rf-quiz-badge-subtitle">You&#39;ve been awarded extra credit!</div>
     <div class="rf-quiz-badge-msg">Take a screenshot of this badge and send it to your professor in Slack.</div>
     <div class="rf-quiz-badge-stamp">
       <span class="rf-quiz-badge-name">Brief Certified</span>
-      <span class="rf-quiz-badge-course">GIT 450/550 · Range &amp; Focus · Spring 2026</span>
+      <span class="rf-quiz-badge-course">GIT 450/550 &middot; Range &amp; Focus &middot; Spring 2026</span>
     </div>
     <button id="quiz-close-success" class="rf-quiz-cta rf-quiz-cta--outline">Close</button>
   </div>
@@ -2345,7 +2211,7 @@ img[data-lightbox] { cursor: zoom-in; }
 <div id="quiz-lockout" role="dialog" aria-modal="true" style="display:none;">
   <div class="rf-quiz-lockout-card">
     <img src="https://images.squarespace-cdn.com/content/v1/64bac4bc173fe572efa4830f/a7fb3d88-2c6e-4bd0-a103-e7bfa2c99d12/20251213_Cameron-Rennacker_Rennacker-Studio-Headshots_0204_Final-head-sm.jpg?format=1500w"
-         alt="Cameron Rennacker" class="rf-quiz-avatar">
+         alt="Cameron Rennacker" class="rf-quiz-avatar" style="margin-bottom:16px;">
     <p class="rf-quiz-lockout-msg">Not quite. Go back and give the brief a thorough re-read. The answers are all in there.</p>
     <p class="rf-quiz-lockout-sub">You can try again in:</p>
     <div class="rf-quiz-countdown" id="quiz-countdown">5:00</div>
@@ -2354,684 +2220,60 @@ img[data-lightbox] { cursor: zoom-in; }
 </div>
 
 <style>
-/* ── RF QUIZ TRIGGER ── */
-#quiz-trigger {
-  background: var(--canyon); border-top: 3px solid var(--alpine-900);
-  padding: 40px 0;
-}
-.rf-quiz-trigger-inner {
-  max-width: 760px; margin: 0 auto; padding: 0 40px;
-  display: flex; align-items: center; gap: 28px;
-}
-.rf-quiz-avatar {
-  width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
-  border: 2px solid var(--marigold); flex-shrink: 0;
-}
-.rf-quiz-trigger-label {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px; font-weight: 900; font-style: italic;
-  color: var(--limestone); margin: 0 0 6px;
-}
-.rf-quiz-trigger-sub {
-  font-size: 13px; color: var(--alpine-300); line-height: 1.6; margin: 0 0 20px;
-}
-.rf-quiz-cta {
-  background: var(--marigold); color: var(--alpine);
-  font-family: 'Work Sans', sans-serif; font-size: 11px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.2em;
-  padding: 12px 28px; border: none; cursor: pointer;
-  transition: background 0.2s, opacity 0.2s;
-  display: inline-block;
-}
-.rf-quiz-cta:hover { background: var(--canyon); color: var(--limestone); }
+/* ── QUIZ TRIGGER ── */
+#quiz-trigger { background: var(--canyon); border-top: 3px solid var(--alpine-900); padding: 40px 0; }
+.rf-quiz-trigger-inner { max-width: 760px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 28px; }
+.rf-quiz-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--limestone); flex-shrink: 0; }
+.rf-quiz-trigger-label { font-family: "Playfair Display", serif; font-size: 28px; font-weight: 900; font-style: italic; color: var(--limestone); margin: 0 0 6px; }
+.rf-quiz-trigger-sub { font-size: 13px; color: var(--limestone); opacity: 0.85; line-height: 1.6; margin: 0 0 20px; font-family: "Work Sans", sans-serif; }
+.rf-quiz-cta { background: var(--limestone); color: var(--canyon); font-family: "Work Sans", sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; padding: 12px 28px; border: none; cursor: pointer; transition: background 0.2s, opacity 0.2s; display: inline-block; }
+.rf-quiz-cta:hover { background: var(--mesa); }
 .rf-quiz-cta:disabled { opacity: 0.4; cursor: not-allowed; }
-.rf-quiz-cta--outline {
-  background: transparent; border: 2px solid var(--marigold);
-  color: var(--marigold); margin-top: 8px;
-}
-.rf-quiz-cta--outline:hover { background: rgba(202,156,55,0.15); color: var(--marigold); }
-
-/* ── RF QUIZ MODAL ── */
-#quiz-modal, #quiz-success, #quiz-lockout {
-  position: fixed; inset: 0; z-index: 2000;
-  background: rgba(0,0,0,0.88);
-  display: flex; align-items: center; justify-content: center;
-  padding: 24px;
-}
-.rf-quiz-card {
-  background: var(--limestone); max-width: 600px; width: 100%;
-  max-height: 92vh; overflow-y: auto;
-}
-.rf-quiz-header {
-  background: var(--alpine-900); padding: 28px 32px 20px;
-  border-bottom: 2px solid var(--marigold);
-}
-.rf-quiz-eyebrow {
-  display: block; font-size: 10px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.3em;
-  color: var(--marigold); margin-bottom: 14px;
-  font-family: 'Work Sans', sans-serif;
-}
-.rf-quiz-bar-track {
-  height: 3px; background: rgba(255,255,255,0.1);
-  margin-bottom: 10px; overflow: hidden;
-}
-.rf-quiz-bar-fill {
-  height: 100%; background: var(--marigold);
-  transition: width 0.4s ease; width: 0%;
-}
-.rf-quiz-counter {
-  font-size: 11px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.2em; color: var(--alpine-300);
-  font-family: 'Work Sans', sans-serif;
-}
+.rf-quiz-cta--outline { background: transparent; border: 2px solid var(--limestone); color: var(--limestone); margin-top: 8px; }
+.rf-quiz-cta--outline:hover { background: rgba(255,254,242,0.15); }
+/* ── QUIZ OVERLAYS ── */
+#quiz-modal, #quiz-success, #quiz-lockout { position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.88); display: flex; align-items: center; justify-content: center; padding: 24px; }
+.rf-quiz-card { background: var(--limestone); max-width: 600px; width: 100%; max-height: 92vh; overflow-y: auto; }
+.rf-quiz-header { background: var(--canyon); padding: 28px 32px 20px; border-bottom: 2px solid var(--alpine-900); }
+.rf-quiz-eyebrow { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3em; color: var(--limestone); opacity: 0.7; margin-bottom: 14px; font-family: "Work Sans", sans-serif; }
+.rf-quiz-bar-track { height: 3px; background: rgba(255,255,255,0.15); margin-bottom: 10px; overflow: hidden; }
+.rf-quiz-bar-fill { height: 100%; background: var(--limestone); transition: width 0.4s ease; width: 0%; }
+.rf-quiz-counter { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: var(--limestone); opacity: 0.7; font-family: "Work Sans", sans-serif; }
 #quiz-question-area { padding: 36px 36px 12px; }
-.rf-quiz-q-text {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(17px, 2.5vw, 22px); font-weight: 700; font-style: italic;
-  color: var(--alpine); line-height: 1.35; margin-bottom: 28px;
-}
+.rf-quiz-q-text { font-family: "Playfair Display", serif; font-size: clamp(17px, 2.5vw, 22px); font-weight: 700; font-style: italic; color: var(--alpine); line-height: 1.35; margin-bottom: 28px; }
 .rf-quiz-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
-.rf-quiz-option {
-  display: flex; align-items: flex-start; gap: 14px;
-  padding: 14px 18px; border: 2px solid var(--mesa);
-  cursor: pointer; background: var(--limestone);
-  transition: border-color 0.15s, background 0.15s;
-  font-size: 14px; color: var(--alpine); line-height: 1.4;
-  font-family: 'Work Sans', sans-serif;
-}
+.rf-quiz-option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px; border: 2px solid var(--mesa); cursor: pointer; background: var(--limestone); transition: border-color 0.15s, background 0.15s; font-size: 14px; color: var(--alpine); line-height: 1.4; font-family: "Work Sans", sans-serif; }
 .rf-quiz-option:hover { border-color: var(--canyon); background: #fdf6ef; }
 .rf-quiz-option.selected { border-color: var(--canyon); background: #fdf6ef; }
 .rf-quiz-option.correct { border-color: #2e7d32; background: #f1f8f1; }
 .rf-quiz-option.wrong   { border-color: #c62828; background: #fdf1f1; }
-.rf-quiz-option input[type="radio"],
-.rf-quiz-option input[type="checkbox"] {
-  margin-top: 2px; flex-shrink: 0; accent-color: var(--canyon);
-}
+.rf-quiz-option input { margin-top: 2px; flex-shrink: 0; accent-color: var(--canyon); }
 .rf-quiz-options.revealed .rf-quiz-option { cursor: default; pointer-events: none; }
-.rf-quiz-input {
-  width: 100%; padding: 14px 18px;
-  border: 2px solid var(--mesa); background: var(--limestone);
-  font-family: 'Work Sans', sans-serif; font-size: 14px; color: var(--alpine);
-  outline: none; transition: border-color 0.2s; box-sizing: border-box;
-}
+.rf-quiz-input { width: 100%; padding: 14px 18px; border: 2px solid var(--mesa); background: var(--limestone); font-family: "Work Sans", sans-serif; font-size: 14px; color: var(--alpine); outline: none; transition: border-color 0.2s; box-sizing: border-box; }
 .rf-quiz-input:focus { border-color: var(--canyon); }
-.rf-quiz-feedback {
-  margin-top: 16px; padding: 12px 18px;
-  font-size: 13px; font-weight: 600; line-height: 1.5;
-  font-family: 'Work Sans', sans-serif; display: none;
-}
+.rf-quiz-feedback { margin-top: 16px; padding: 12px 18px; font-size: 13px; font-weight: 600; line-height: 1.5; font-family: "Work Sans", sans-serif; display: none; }
 .rf-quiz-feedback.correct { background: #f1f8f1; color: #2e7d32; }
 .rf-quiz-feedback.wrong   { background: #fdf1f1; color: #c62828; }
-.rf-quiz-footer {
-  padding: 20px 36px 32px;
-  display: flex; justify-content: flex-end;
-}
-
-/* ── RF SUCCESS BADGE ── */
-.rf-quiz-badge-card {
-  background: var(--canyon); max-width: 480px; width: 100%;
-  padding: 48px 40px; text-align: center;
-  border-top: 3px solid var(--alpine-900);
-  max-height: 92vh; overflow-y: auto;
-}
-.rf-quiz-badge-wren { width: 72px; height: 72px; margin: 0 auto 16px; }
+.rf-quiz-footer { padding: 20px 36px 32px; display: flex; justify-content: flex-end; }
+/* ── SUCCESS BADGE ── */
+.rf-quiz-badge-card { background: var(--canyon); max-width: 480px; width: 100%; padding: 48px 40px; text-align: center; border-top: 3px solid var(--alpine-900); max-height: 92vh; overflow-y: auto; }
+.rf-quiz-badge-wren { width: 64px; height: 64px; margin: 0 auto 16px; }
 .rf-quiz-badge-wren svg { width: 100%; height: 100%; }
-.rf-quiz-badge-avatar {
-  width: 80px; height: 80px; border-radius: 50%;
-  object-fit: cover; border: 2px solid var(--marigold);
-  display: block; margin: 0 auto 24px;
-}
-.rf-quiz-badge-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 36px; font-weight: 900; font-style: italic;
-  color: var(--marigold); margin-bottom: 8px;
-}
-.rf-quiz-badge-subtitle {
-  font-size: 14px; font-weight: 600; color: var(--limestone);
-  font-family: 'Work Sans', sans-serif; margin-bottom: 12px;
-}
-.rf-quiz-badge-msg {
-  font-size: 13px; color: var(--alpine-300); line-height: 1.7;
-  font-family: 'Work Sans', sans-serif; margin-bottom: 28px;
-}
-.rf-quiz-badge-stamp {
-  border: 1px solid rgba(202,156,55,0.35);
-  padding: 18px 24px; margin-bottom: 28px;
-}
-.rf-quiz-badge-name {
-  display: block; font-family: 'Playfair Display', serif;
-  font-size: 20px; font-weight: 900; color: var(--marigold); letter-spacing: 0.04em;
-}
-.rf-quiz-badge-course {
-  display: block; font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.3); margin-top: 6px;
-  font-family: 'Work Sans', sans-serif;
-}
-
-/* ── RF LOCKOUT ── */
-.rf-quiz-lockout-card {
-  background: var(--canyon); max-width: 400px; width: 100%;
-  padding: 40px 36px; text-align: center;
-  border-top: 3px solid var(--alpine-900);
-}
-.rf-quiz-lockout-msg {
-  font-size: 15px; color: var(--limestone); line-height: 1.7;
-  font-family: 'Work Sans', sans-serif; margin: 16px 0 8px;
-}
-.rf-quiz-lockout-sub {
-  font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.2em; color: var(--alpine-300); margin: 0 0 12px;
-  font-family: 'Work Sans', sans-serif;
-}
-.rf-quiz-countdown {
-  font-family: 'Playfair Display', serif;
-  font-size: 60px; font-weight: 900; color: var(--marigold); line-height: 1;
-}
-
-/* Mobile */
+.rf-quiz-badge-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--limestone); display: block; margin: 0 auto 24px; }
+.rf-quiz-badge-title { font-family: "Playfair Display", serif; font-size: 36px; font-weight: 900; font-style: italic; color: var(--limestone); margin-bottom: 8px; }
+.rf-quiz-badge-subtitle { font-size: 14px; font-weight: 700; color: var(--limestone); font-family: "Work Sans", sans-serif; margin-bottom: 12px; }
+.rf-quiz-badge-msg { font-size: 13px; color: var(--limestone); opacity: 0.85; line-height: 1.7; font-family: "Work Sans", sans-serif; margin-bottom: 28px; }
+.rf-quiz-badge-stamp { border: 1px solid rgba(255,254,242,0.4); padding: 18px 24px; margin-bottom: 28px; }
+.rf-quiz-badge-name { display: block; font-family: "Playfair Display", serif; font-size: 20px; font-weight: 900; color: var(--limestone); letter-spacing: 0.04em; }
+.rf-quiz-badge-course { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--limestone); opacity: 0.6; margin-top: 6px; font-family: "Work Sans", sans-serif; }
+/* ── LOCKOUT ── */
+.rf-quiz-lockout-card { background: var(--canyon); max-width: 400px; width: 100%; padding: 40px 36px; text-align: center; border-top: 3px solid var(--alpine-900); }
+.rf-quiz-lockout-msg { font-size: 15px; color: var(--limestone); line-height: 1.7; font-family: "Work Sans", sans-serif; margin: 16px 0 8px; }
+.rf-quiz-lockout-sub { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--limestone); opacity: 0.7; margin: 0 0 12px; font-family: "Work Sans", sans-serif; }
+.rf-quiz-countdown { font-family: "Playfair Display", serif; font-size: 60px; font-weight: 900; color: var(--limestone); line-height: 1; }
 @media (max-width: 600px) {
   .rf-quiz-trigger-inner { flex-direction: column; text-align: center; gap: 16px; }
   .rf-quiz-header, #quiz-question-area, .rf-quiz-footer { padding-left: 20px; padding-right: 20px; }
   .rf-quiz-badge-card, .rf-quiz-lockout-card { padding: 32px 20px; }
 }
 </style>
-
-<script>
-(function() {
-
-// ════════════════════════════════════════════
-// RANGE & FOCUS — 30-QUESTION BANK
-// ════════════════════════════════════════════
-var RF_QUESTIONS = [
-  // ── SCOPE ──
-  {
-    type: 'mc',
-    q: 'How many scope items should each team choose to produce?',
-    options: ['All of them', 'Two', 'Three', 'Four'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'Which platform is specified as the destination for the website redesign?',
-    options: ['Squarespace', 'WordPress', 'Webflow', 'Shopify'],
-    answer: 3
-  },
-  {
-    type: 'mc',
-    q: 'How many usability testing participants are required for the Web and UX scope item?',
-    options: ['5', '8', '10', '15'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'The brief describes the website as a "gallery that happens to sell things." What is the implication for design?',
-    options: [
-      'Prioritize the cart and checkout above everything else',
-      'Prioritize storytelling over simple add-to-cart mechanics',
-      'Make the site look like a museum with no e-commerce',
-      'Focus only on mobile since most buyers use phones'
-    ],
-    answer: 1
-  },
-  {
-    type: 'mc',
-    q: 'Which AR solution is NOT listed in the brief as a research starting point?',
-    options: ['Shopify native .usdz/.glb', 'Zakeke', 'Threekit', 'Adobe Aero'],
-    answer: 3
-  },
-  {
-    type: 'mc',
-    q: 'For the AR room viewer, which device does the brief specifically say it must work on?',
-    options: ['Android phones', 'iPad', 'iPhone', 'Desktop browsers'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'How many collector\'s editions exist per image in the vault?',
-    options: ['3', '5', '10', '25'],
-    answer: 1
-  },
-  {
-    type: 'mc',
-    q: 'What is the opening bid for a collector\'s edition auction?',
-    options: ['$500', '$800', '$1,000', '$1,200'],
-    answer: 3
-  },
-  {
-    type: 'mc',
-    q: 'How long does a collector\'s edition auction run?',
-    options: ['7 days', '14 days', '30 days', '60 days'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'What happens to an auction if no bids are placed during the 30-day window?',
-    options: [
-      'The image is retired permanently',
-      'The price drops by 25%',
-      'The auction resets for another 30 days',
-      'The edition becomes a gallery edition'
-    ],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'How many gallery editions are available per image?',
-    options: ['10', '25', '50', '100'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'What does a buyer receive after winning a collector\'s auction, in addition to the print?',
-    options: [
-      'A signed physical certificate in the mail',
-      'A digital certificate of authenticity delivered by email',
-      'A free second print of their choice',
-      'A lifetime membership to the vault'
-    ],
-    answer: 1
-  },
-  {
-    type: 'mc',
-    q: 'The trail materials scope item lists weight and size as "big constraints." Why?',
-    options: [
-      'They need to fit through a standard mail slot',
-      'They must fit in a fully-loaded camera bag',
-      'They will be distributed at retail stores',
-      'They must survive being wet in a river'
-    ],
-    answer: 1
-  },
-  {
-    type: 'mc',
-    q: 'Which social platform does the brief say Range and Focus "probably should be on" in addition to Instagram?',
-    options: ['YouTube', 'Pinterest', 'TikTok', 'Threads'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'How many total size options are available across standard and panoramic prints?',
-    options: ['4', '6', '8', '10'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'How many frame options are available?',
-    options: ['4', '5', '6', '8'],
-    answer: 2
-  },
-  // ── BRAND ──
-  {
-    type: 'mc',
-    q: 'Which typeface is specified for headlines, display, and editorial use?',
-    options: ['Work Sans', 'Playfair Display', 'GT America', 'Freight Display'],
-    answer: 1
-  },
-  {
-    type: 'mc',
-    q: 'Which typeface is used for body copy, UI elements, and eyebrow text?',
-    options: ['Playfair Display', 'Georgia', 'Work Sans', 'Helvetica Neue'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'What is the hex code for R&F Alpine, the primary brand color?',
-    options: ['#6b331e', '#ca9c37', '#2c3820', '#437394'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'Which color is described as "R&F Canyon"?',
-    options: ['#2c3820', '#437394', '#ca9c37', '#6b331e'],
-    answer: 3
-  },
-  {
-    type: 'mc',
-    q: 'What is the name of the R&F neutral warm off-white background color?',
-    options: ['Mesa', 'Limestone', 'Glacier', 'Marigold'],
-    answer: 1
-  },
-  // ── ARTIST / CLIENT ──
-  {
-    type: 'mc',
-    q: 'How many countries have Cameron and Josh traveled to together?',
-    options: ['2', '3', '4', '5'],
-    answer: 1
-  },
-  {
-    type: 'mc',
-    q: 'How many national parks have Cameron and Josh visited?',
-    options: ['26', '33', '38', '45'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'What is the Range and Focus Instagram handle?',
-    options: ['@rennackerart', '@rangeandfocusphoto', '@rangeandfocus', '@cameronrennacker'],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'What is Sahara Rennacker\'s role in the brief?',
-    options: ['Senior Assistant to the Photographer', 'Chief Trail Officer', 'Brand Director', 'Art Director'],
-    answer: 1
-  },
-  // ── NOTES / POLICY ──
-  {
-    type: 'mc',
-    q: 'According to the pro tips, what is the difference between urgency and pressure in the context of scarcity?',
-    options: [
-      'Urgency uses timers; pressure uses copy',
-      'Urgency is honest about facts; pressure is manipulative',
-      'Urgency applies to auctions; pressure applies to gallery editions',
-      'There is no meaningful difference'
-    ],
-    answer: 1
-  },
-  {
-    type: 'mc',
-    q: 'What does the brief say about AI-generated imagery at Range and Focus?',
-    options: [
-      'It is encouraged for social media content only',
-      'It can be used if disclosed',
-      'It is not used and that is a stance, not a limitation',
-      'It is permitted for sizzle reels but not prints'
-    ],
-    answer: 2
-  },
-  {
-    type: 'mc',
-    q: 'What does the winning concept stand to receive according to the brief?',
-    options: [
-      'A cash prize from the client',
-      'A letter of recommendation',
-      'Consideration for real-world development on the Shopify build',
-      'Publication in a design magazine'
-    ],
-    answer: 2
-  },
-  // ── MULTI-SELECT ──
-  {
-    type: 'multi',
-    q: 'Which of the following are listed as standard print sizes? Select all that apply.',
-    options: [
-      '12 × 9 in',
-      '18 × 12 in',
-      '24 × 18 in',
-      '48 × 36 in',
-      '60 × 40 in'
-    ],
-    answers: [0, 2, 3]
-  },
-  {
-    type: 'multi',
-    q: 'Which deliverables are included in the Web and UX scope item? Select all that apply.',
-    options: [
-      'Low-fidelity wireframes in Figma',
-      'A printed lookbook',
-      'High-fidelity prototypes for mobile and desktop',
-      'Developer-ready design documentation',
-      'A physical prototype of the product'
-    ],
-    answers: [0, 2, 3]
-  }
-];
-
-// ════════════════════════════════════════════
-// QUIZ ENGINE
-// ════════════════════════════════════════════
-var LOCKOUT_MS  = 5 * 60 * 1000;
-var KEY_LOCKOUT = 'rf_quiz_lockout_until';
-var KEY_CREDIT  = 'rf_quiz_credited';
-var questions = [], currentQ = 0, score = 0, selectedAnswers = [];
-var lockoutTimer = null;
-
-function initRFQuiz() {
-  var triggerEl    = document.getElementById('quiz-trigger');
-  var startBtn     = document.getElementById('quiz-start-btn');
-  var modalEl      = document.getElementById('quiz-modal');
-  var successEl    = document.getElementById('quiz-success');
-  var lockoutEl    = document.getElementById('quiz-lockout');
-  var qArea        = document.getElementById('quiz-question-area');
-  var progressFill = document.getElementById('quiz-progress');
-  var counterEl    = document.getElementById('quiz-counter');
-  var submitBtn    = document.getElementById('quiz-submit-btn');
-  var countdownEl  = document.getElementById('quiz-countdown');
-
-  if (!triggerEl || !startBtn || !modalEl || !successEl || !lockoutEl ||
-      !qArea || !progressFill || !counterEl || !submitBtn || !countdownEl) {
-    return;
-  }
-
-  // ── Scroll trigger ──
-  var triggered = false;
-  function onScroll() {
-    if (triggered) return;
-    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 80) {
-      triggered = true;
-      triggerEl.style.display = 'block';
-      window.removeEventListener('scroll', onScroll);
-    }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-
-  // ── Helpers ──
-  function shuffle(a) {
-    var b = a.slice();
-    for (var i = b.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = b[i]; b[i] = b[j]; b[j] = t;
-    }
-    return b;
-  }
-  function isLocked() {
-    try { return Date.now() < parseInt(localStorage.getItem(KEY_LOCKOUT) || '0'); } catch(e) { return false; }
-  }
-  function lockRemaining() {
-    try { return Math.max(0, parseInt(localStorage.getItem(KEY_LOCKOUT) || '0') - Date.now()); } catch(e) { return 0; }
-  }
-  function setLock() {
-    try { localStorage.setItem(KEY_LOCKOUT, Date.now() + LOCKOUT_MS); } catch(e) {}
-  }
-  function hasCredited() {
-    try { return !!localStorage.getItem(KEY_CREDIT); } catch(e) { return false; }
-  }
-  function markCredit() {
-    try { localStorage.setItem(KEY_CREDIT, '1'); } catch(e) {}
-  }
-
-  if (hasCredited()) startBtn.textContent = 'Take it again';
-
-  startBtn.addEventListener('click', function() {
-    if (isLocked()) { showLockout(); return; }
-    questions = shuffle(RF_QUESTIONS).slice(0, 3);
-    currentQ = 0; score = 0;
-    modalEl.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    renderQ();
-  });
-
-  function renderQ() {
-    var q = questions[currentQ];
-    progressFill.style.width = ((currentQ / 3) * 100) + '%';
-    counterEl.textContent = 'Question ' + (currentQ + 1) + ' of 3';
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submit answer';
-    selectedAnswers = [];
-
-    var h = '<p class="rf-quiz-q-text">' + q.q + '</p>';
-    if (q.type === 'mc') {
-      h += '<div class="rf-quiz-options" id="rf-opts">';
-      q.options.forEach(function(opt, i) {
-        h += '<label class="rf-quiz-option" data-idx="' + i + '"><input type="radio" name="rfo" value="' + i + '"> ' + opt + '</label>';
-      });
-      h += '</div>';
-    } else if (q.type === 'multi') {
-      h += '<p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--alpine-400);margin-bottom:12px;font-family:sans-serif;">Select all that apply</p>';
-      h += '<div class="rf-quiz-options" id="rf-opts">';
-      q.options.forEach(function(opt, i) {
-        h += '<label class="rf-quiz-option" data-idx="' + i + '"><input type="checkbox" name="rfo" value="' + i + '"> ' + opt + '</label>';
-      });
-      h += '</div>';
-    } else if (q.type === 'short') {
-      h += '<input type="text" class="rf-quiz-input" id="rf-short" placeholder="Type your answer..." autocomplete="off">';
-      if (q.hint) h += '<p style="font-size:11px;color:var(--alpine-400);margin-top:8px;">' + q.hint + '</p>';
-    }
-    h += '<div class="rf-quiz-feedback" id="rf-fb"></div>';
-    qArea.innerHTML = h;
-
-    if (q.type === 'mc') {
-      qArea.querySelectorAll('.rf-quiz-option').forEach(function(lbl) {
-        lbl.addEventListener('click', function() {
-          qArea.querySelectorAll('.rf-quiz-option').forEach(function(l) { l.classList.remove('selected'); });
-          lbl.classList.add('selected'); lbl.querySelector('input').checked = true;
-          selectedAnswers = [parseInt(lbl.dataset.idx)]; submitBtn.disabled = false;
-        });
-      });
-    } else if (q.type === 'multi') {
-      qArea.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
-        cb.addEventListener('change', function() {
-          cb.closest('.rf-quiz-option').classList.toggle('selected', cb.checked);
-          selectedAnswers = [];
-          qArea.querySelectorAll('input[type="checkbox"]:checked').forEach(function(c) { selectedAnswers.push(parseInt(c.value)); });
-          submitBtn.disabled = selectedAnswers.length === 0;
-        });
-      });
-    } else if (q.type === 'short') {
-      var inp = document.getElementById('rf-short');
-      if (inp) inp.addEventListener('input', function() { submitBtn.disabled = inp.value.trim().length < 2; });
-    }
-  }
-
-  submitBtn.addEventListener('click', function() {
-    if (submitBtn.textContent === 'Next question' || submitBtn.textContent === 'See results') {
-      currentQ++;
-      if (currentQ < 3) renderQ(); else finishQuiz();
-      return;
-    }
-    var q = questions[currentQ];
-    var fb = document.getElementById('rf-fb');
-    var opts = document.getElementById('rf-opts');
-    var correct = false;
-
-    if (q.type === 'mc') {
-      correct = selectedAnswers[0] === q.answer;
-      if (opts) {
-        opts.classList.add('revealed');
-        opts.querySelectorAll('.rf-quiz-option').forEach(function(lbl) {
-          var idx = parseInt(lbl.dataset.idx);
-          if (idx === q.answer) lbl.classList.add('correct');
-          else if (selectedAnswers.indexOf(idx) > -1) lbl.classList.add('wrong');
-        });
-      }
-      if (fb) { fb.className = 'rf-quiz-feedback ' + (correct ? 'correct' : 'wrong'); fb.textContent = correct ? 'Correct.' : 'Not quite. The answer is: ' + q.options[q.answer]; fb.style.display = 'block'; }
-    } else if (q.type === 'multi') {
-      var ss = selectedAnswers.slice().sort().join(',');
-      var as = q.answers.slice().sort().join(',');
-      correct = ss === as;
-      if (opts) {
-        opts.classList.add('revealed');
-        opts.querySelectorAll('.rf-quiz-option').forEach(function(lbl) {
-          var idx = parseInt(lbl.dataset.idx);
-          if (q.answers.indexOf(idx) > -1) lbl.classList.add('correct');
-          else if (selectedAnswers.indexOf(idx) > -1) lbl.classList.add('wrong');
-        });
-      }
-      if (fb) { fb.className = 'rf-quiz-feedback ' + (correct ? 'correct' : 'wrong'); fb.textContent = correct ? 'Correct.' : 'Not quite. Correct: ' + q.answers.map(function(i) { return q.options[i]; }).join(', '); fb.style.display = 'block'; }
-    } else if (q.type === 'short') {
-      var val = (document.getElementById('rf-short') || {value:''}).value.toLowerCase().trim();
-      correct = q.keywords.some(function(kw) { return val.indexOf(kw.toLowerCase()) > -1; });
-      if (fb) { fb.className = 'rf-quiz-feedback ' + (correct ? 'correct' : 'wrong'); fb.textContent = correct ? 'Good answer.' : 'Not quite. Think about: ' + q.keywords.join(', '); fb.style.display = 'block'; }
-      var si = document.getElementById('rf-short');
-      if (si) si.disabled = true;
-    }
-
-    if (correct) score++;
-    submitBtn.disabled = false;
-    submitBtn.textContent = currentQ < 2 ? 'Next question' : 'See results';
-  });
-
-  function finishQuiz() {
-    modalEl.style.display = 'none';
-    if (score === 3) { markCredit(); successEl.style.display = 'flex'; }
-    else { setLock(); showLockout(); }
-  }
-
-  function showLockout() {
-    lockoutEl.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    runCountdown();
-  }
-  function runCountdown() {
-    if (lockoutTimer) clearInterval(lockoutTimer);
-    lockoutTimer = setInterval(function() {
-      var rem = lockRemaining();
-      if (rem <= 0) {
-        clearInterval(lockoutTimer);
-        countdownEl.textContent = '0:00';
-        var closeBtn = document.getElementById('quiz-lockout-close');
-        if (closeBtn) closeBtn.textContent = 'Try again';
-        return;
-      }
-      var m = Math.floor(rem / 60000), s = Math.floor((rem % 60000) / 1000);
-      countdownEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
-    }, 500);
-  }
-
-  // ── Always allow closing lockout ──
-  document.getElementById('quiz-lockout-close').addEventListener('click', function() {
-    lockoutEl.style.display = 'none';
-    document.body.style.overflow = '';
-    if (lockoutTimer) clearInterval(lockoutTimer);
-  });
-
-  document.getElementById('quiz-close-success').addEventListener('click', function() {
-    successEl.style.display = 'none';
-    document.body.style.overflow = '';
-    if (hasCredited()) startBtn.textContent = 'Take it again';
-  });
-
-  modalEl.addEventListener('click', function(e) {
-    if (e.target === modalEl) { modalEl.style.display = 'none'; document.body.style.overflow = ''; }
-  });
-
-  // ── Cameron easter egg ──
-  var rfEggTip = document.createElement('div');
-  rfEggTip.style.cssText = "display:none;position:fixed;z-index:3000;background:var(--alpine-900);border:1px solid var(--marigold);padding:10px 16px;font-family:'Work Sans',sans-serif;font-size:12px;font-weight:600;color:var(--marigold);max-width:240px;text-align:center;line-height:1.4;box-shadow:0 8px 28px rgba(0,0,0,0.4);pointer-events:none;";
-  rfEggTip.textContent = "That's the instructor. He wrote this brief. No pressure.";
-  document.body.appendChild(rfEggTip);
-
-  document.querySelectorAll('.stakeholder-avatar img').forEach(function(img) {
-    if ((img.src && img.src.indexOf('Cameron') > -1) || (img.alt && img.alt.indexOf('Cameron') > -1)) {
-      img.style.cursor = 'pointer';
-      var clicks = 0, clickTimer = null;
-      img.addEventListener('click', function() {
-        clicks++;
-        if (clickTimer) clearTimeout(clickTimer);
-        clickTimer = setTimeout(function() { clicks = 0; }, 600);
-        if (clicks >= 3) {
-          clicks = 0;
-          var rect = img.getBoundingClientRect();
-          rfEggTip.style.display = 'block';
-          rfEggTip.style.top = (rect.top + window.scrollY - 70) + 'px';
-          rfEggTip.style.left = (rect.left + rect.width / 2 - 120) + 'px';
-          setTimeout(function() { rfEggTip.style.display = 'none'; }, 3500);
-        }
-      });
-    }
-  });
-
-} // end initRFQuiz
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initRFQuiz);
-} else {
-  initRFQuiz();
-}
-
-})();
-</script>
-</body>
-</html>
