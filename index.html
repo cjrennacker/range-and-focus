@@ -578,11 +578,11 @@ section { position: relative; }
 .frame-picker-dot.active { background: var(--marigold); }
 .frame-picker-close {
   position: absolute; top: 12px; right: 16px;
-  background: none; border: none; color: rgba(255,255,255,0.5);
+  background: none; border: none; color: var(--alpine);
   font-size: 24px; cursor: pointer; line-height: 1;
   transition: color 0.2s;
 }
-.frame-picker-close:hover { color: var(--limestone); }
+.frame-picker-close:hover { color: var(--canyon); }
 .frame-item { cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease; }
 .frame-item:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
 footer { background: var(--alpine-900); border-top: 1px solid var(--alpine-500); padding: 72px 0 52px; color: var(--limestone); text-align: center; }
@@ -795,7 +795,7 @@ footer .footer-meta { font-size: 11px; font-weight: 500; text-transform: upperca
   .site-header-inner { height: auto; flex-direction: column; padding: 16px 24px; gap: 0; }
   .site-nav { flex-wrap: wrap; justify-content: center; height: auto; gap: 0; }
   .site-nav > li > a, .site-nav > li > button { padding: 10px 12px; height: auto; }
-  .nav-dropdown { position: fixed; top: auto; left: 0; right: 0; min-width: 100%; }
+  .nav-dropdown { position: static !important; width: 100%; box-shadow: none; border-top: 2px solid var(--canyon); }
   .header-right { display: none; }
 }
 
@@ -878,7 +878,11 @@ img[data-lightbox] { cursor: zoom-in; }
   .formats-grid { grid-template-columns: 1fr; }
   .brand-grid { grid-template-columns: 1fr; }
   .ratio-visual-grid { grid-template-columns: repeat(2, 1fr); }
-  .stakeholder-card { grid-template-columns: 80px 1fr; gap: 24px; padding: 28px 0; }
+  .stakeholder-card { grid-template-columns: 80px 1fr; gap: 20px; padding: 24px 0; }
+  .stakeholder-info { min-width: 0; overflow-wrap: break-word; word-wrap: break-word; }
+  .stakeholder-name { font-size: 16px !important; }
+  .stakeholder-role { font-size: 10px !important; }
+  .stakeholder-sub { font-size: 12px !important; }
   .assets-grid { grid-template-columns: repeat(2, 1fr); }
   .timeline-item { grid-template-columns: 110px 44px 1fr; }
   .container { padding: 0 24px; }
@@ -971,6 +975,7 @@ img[data-lightbox] { cursor: zoom-in; }
 
 /* ── GRIDS: smaller breakpoint catch-all ── */
 @media (max-width: 600px) {
+  .granite-img { aspect-ratio: 16/9 !important; }
   .swot-grid { grid-template-columns: 1fr !important; gap: 2px !important; }
   .rec-grid  { grid-template-columns: 1fr !important; }
   .del-grid  { grid-template-columns: 1fr !important; }
@@ -980,6 +985,7 @@ img[data-lightbox] { cursor: zoom-in; }
   .artist-grid  { grid-template-columns: 1fr !important; }
   .assets-grid  { grid-template-columns: 1fr !important; }
   .two-col, .two-col--60 { grid-template-columns: 1fr !important; }
+  .audience-section .two-col--60 > div:last-child img { aspect-ratio: 16/9 !important; }
   .stakeholder-grid { grid-template-columns: 1fr !important; }
 
   /* Section padding reduction */
@@ -1248,7 +1254,7 @@ img[data-lightbox] { cursor: zoom-in; }
         </div>
       </div>
       <div>
-        <img src="https://images.squarespace-cdn.com/content/v1/60bd7db0fbad083dee475913/b2cde0b0-3189-4d32-bb95-a04dcbf45e1f/Granite+Ghost+II_Banff+National+Park_Alberta_Canada_Rennacker+Art-9503_20230926.jpg?format=2500w" alt="Granite Ghost II — Banff National Park, Alberta, Canada" style="width:100%; aspect-ratio:3/4; object-fit:cover; display:block; filter:brightness(0.82);">
+        <img src="https://images.squarespace-cdn.com/content/v1/60bd7db0fbad083dee475913/b2cde0b0-3189-4d32-bb95-a04dcbf45e1f/Granite+Ghost+II_Banff+National+Park_Alberta_Canada_Rennacker+Art-9503_20230926.jpg?format=2500w" alt="Granite Ghost II — Banff National Park, Alberta, Canada" style="width:100%; aspect-ratio:3/4; object-fit:cover; display:block; filter:brightness(0.82);" class="granite-img">
       </div>
     </div>
   </div>
@@ -1281,7 +1287,7 @@ img[data-lightbox] { cursor: zoom-in; }
     <div class="stakeholder-grid">
       <div class="stakeholder-card">
         <div class="stakeholder-avatar">
-          <img src="https://images.squarespace-cdn.com/content/v1/64bac4bc173fe572efa4830f/a7fb3d88-2c6e-4bd0-a103-e7bfa2c99d12/20251213_Cameron-Rennacker_Rennacker-Studio-Headshots_0204_Final-head-sm.jpg?format=1500w" alt="Cameron Rennacker" data-lightbox data-caption="Cameron Rennacker — Founder, Range &amp; Focus">
+          <img src="https://images.squarespace-cdn.com/content/v1/64bac4bc173fe572efa4830f/a7fb3d88-2c6e-4bd0-a103-e7bfa2c99d12/20251213_Cameron-Rennacker_Rennacker-Studio-Headshots_0204_Final-head-sm.jpg?format=1500w" alt="Cameron Rennacker">
         </div>
         <div class="stakeholder-info">
           <div class="stakeholder-name">Cameron Rennacker</div>
@@ -1291,7 +1297,7 @@ img[data-lightbox] { cursor: zoom-in; }
       </div>
       <div class="stakeholder-card">
         <div class="stakeholder-avatar">
-          <img src="https://images.squarespace-cdn.com/content/v1/64bac4bc173fe572efa4830f/1b96220f-8834-446c-a56d-67bedb0dcc4a/20251213_Josh-Rennacker_Rennacker-Studio-Headshots_0486.jpg?format=1500w" alt="Josh Rennacker" data-lightbox data-caption="Josh Rennacker — Senior Assistant to the Photographer">
+          <img src="https://images.squarespace-cdn.com/content/v1/64bac4bc173fe572efa4830f/1b96220f-8834-446c-a56d-67bedb0dcc4a/20251213_Josh-Rennacker_Rennacker-Studio-Headshots_0486.jpg?format=1500w" alt="Josh Rennacker">
         </div>
         <div class="stakeholder-info">
           <div class="stakeholder-name">Josh Rennacker</div>
@@ -1301,7 +1307,7 @@ img[data-lightbox] { cursor: zoom-in; }
       </div>
       <div class="stakeholder-card">
         <div class="stakeholder-avatar">
-          <img src="https://images.squarespace-cdn.com/content/v1/64bac4bc173fe572efa4830f/dc867a29-5b75-4bbc-b1f5-564b71e8099d/20251213_Sahara-Rennacker_Rennacker-Studio-Headshots_0446.jpg?format=1500w" alt="Sahara Rennacker" data-lightbox data-caption="Sahara Rennacker — Chief Trail Officer">
+          <img src="https://images.squarespace-cdn.com/content/v1/64bac4bc173fe572efa4830f/dc867a29-5b75-4bbc-b1f5-564b71e8099d/20251213_Sahara-Rennacker_Rennacker-Studio-Headshots_0446.jpg?format=1500w" alt="Sahara Rennacker">
         </div>
         <div class="stakeholder-info">
           <div class="stakeholder-name">Sahara Rennacker</div>
@@ -2021,6 +2027,13 @@ img[data-lightbox] { cursor: zoom-in; }
   var successTxt = document.getElementById('loader-success-text');
 
   // Pick a random success message
+  // Show loader only once per session
+  if (sessionStorage.getItem('rf_loaded')) {
+    loader.classList.add('hidden');
+    document.body.style.overflow = '';
+    return;
+  }
+  sessionStorage.setItem('rf_loaded', '1');
   successTxt.textContent = successes[Math.floor(Math.random() * successes.length)];
 
   // Randomly shuffle phrases
@@ -2343,7 +2356,7 @@ img[data-lightbox] { cursor: zoom-in; }
 <style>
 /* ── RF QUIZ TRIGGER ── */
 #quiz-trigger {
-  background: var(--alpine-900); border-top: 3px solid var(--marigold);
+  background: var(--canyon); border-top: 3px solid var(--alpine-900);
   padding: 40px 0;
 }
 .rf-quiz-trigger-inner {
@@ -2457,9 +2470,9 @@ img[data-lightbox] { cursor: zoom-in; }
 
 /* ── RF SUCCESS BADGE ── */
 .rf-quiz-badge-card {
-  background: var(--alpine-900); max-width: 480px; width: 100%;
+  background: var(--canyon); max-width: 480px; width: 100%;
   padding: 48px 40px; text-align: center;
-  border-top: 3px solid var(--marigold);
+  border-top: 3px solid var(--alpine-900);
   max-height: 92vh; overflow-y: auto;
 }
 .rf-quiz-badge-wren { width: 72px; height: 72px; margin: 0 auto 16px; }
@@ -2499,9 +2512,9 @@ img[data-lightbox] { cursor: zoom-in; }
 
 /* ── RF LOCKOUT ── */
 .rf-quiz-lockout-card {
-  background: var(--alpine-900); max-width: 400px; width: 100%;
+  background: var(--canyon); max-width: 400px; width: 100%;
   padding: 40px 36px; text-align: center;
-  border-top: 3px solid var(--canyon);
+  border-top: 3px solid var(--alpine-900);
 }
 .rf-quiz-lockout-msg {
   font-size: 15px; color: var(--limestone); line-height: 1.7;
