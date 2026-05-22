@@ -2963,14 +2963,9 @@ function runCountdown() {
   }, 500);
 }
 document.getElementById('quiz-lockout-close').addEventListener('click', function() {
-  if (!isLocked()) {
-    lockoutEl.style.display = 'none';
-    document.body.style.overflow = '';
-    if (lockoutTimer) clearInterval(lockoutTimer);
-  } else {
-    countdownEl.style.color = 'var(--canyon)';
-    setTimeout(function() { countdownEl.style.color = ''; }, 400);
-  }
+  lockoutEl.style.display = 'none';
+  document.body.style.overflow = '';
+  if (lockoutTimer) clearInterval(lockoutTimer);
 });
 document.getElementById('quiz-close-success').addEventListener('click', function() {
   successEl.style.display = 'none';
