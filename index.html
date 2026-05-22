@@ -885,6 +885,149 @@ img[data-lightbox] { cursor: zoom-in; }
   .container--narrow { padding: 0 24px; }
   .artist-grid { grid-template-columns: 1fr; gap: 48px; }
 }
+
+/* ═══════════════════════════════════
+   MOBILE-FIRST RESPONSIVE ADDITIONS
+   ═══════════════════════════════════ */
+
+/* ── NAV: touch-friendly dropdown ── */
+.site-nav > li > button[aria-expanded="true"] + .nav-dropdown,
+.site-nav > li > button[aria-expanded="true"] + ul.nav-dropdown {
+  display: block;
+}
+
+@media (max-width: 960px) {
+  /* Nav becomes tap-to-open instead of hover */
+  .site-nav > li:hover .nav-dropdown,
+  .site-nav > li:focus-within .nav-dropdown {
+    display: none; /* disable hover on mobile */
+  }
+  .site-nav > li > button[aria-expanded="true"] + .nav-dropdown,
+  .site-nav > li > button[aria-expanded="true"] + ul.nav-dropdown {
+    display: block;
+  }
+  .nav-dropdown {
+    position: static !important;
+    width: 100%; border-top: 2px solid;
+    box-shadow: none; min-width: 0;
+    padding: 4px 0;
+  }
+  .nav-dropdown li a {
+    padding: 10px 16px; font-size: 12px;
+  }
+}
+
+/* ── LOADER: prevent phrase height jumping ── */
+#loader-main {
+  width: min(480px, 90vw) !important;
+  padding: 0 20px !important;
+}
+.loader-phrase {
+  min-height: 2.4em !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* ── HERO: single-column on small screens ── */
+@media (max-width: 720px) {
+  .hero { grid-template-columns: 1fr !important; min-height: auto !important; }
+  .hero-text { padding: 72px 24px 60px !important; }
+  .hero-visual, .hero-image { min-height: 280px; }
+  .hero-visual-inner { padding: 40px 24px !important; gap: 20px !important; }
+  .hero-stat-number { font-size: 36px !important; }
+}
+
+/* ── RESPONSIVE TABLE: card layout on mobile ── */
+@media (max-width: 640px) {
+  .comp-table, .comp-table thead,
+  .comp-table tbody, .comp-table th,
+  .comp-table td, .comp-table tr {
+    display: block;
+    width: 100%;
+  }
+  .comp-table thead { display: none; }
+  .comp-table tr {
+    margin-bottom: 16px;
+    border: 1px solid var(--gray4, rgba(255,255,255,0.1));
+    padding: 16px;
+  }
+  .comp-table td {
+    border: none !important;
+    padding: 8px 0 !important;
+    font-size: 13px;
+  }
+  .comp-table td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    opacity: 0.5; margin-bottom: 4px;
+  }
+  /* comp-aside hide on mobile — not enough room */
+  .comp-aside { display: none !important; }
+}
+
+/* ── GRIDS: smaller breakpoint catch-all ── */
+@media (max-width: 600px) {
+  .swot-grid { grid-template-columns: 1fr !important; gap: 2px !important; }
+  .rec-grid  { grid-template-columns: 1fr !important; }
+  .del-grid  { grid-template-columns: 1fr !important; }
+  .metrics-grid { grid-template-columns: 1fr !important; }
+  .formats-grid { grid-template-columns: 1fr !important; }
+  .brand-grid   { grid-template-columns: 1fr !important; }
+  .artist-grid  { grid-template-columns: 1fr !important; }
+  .assets-grid  { grid-template-columns: 1fr !important; }
+  .two-col, .two-col--60 { grid-template-columns: 1fr !important; }
+  .stakeholder-grid { grid-template-columns: 1fr !important; }
+
+  /* Section padding reduction */
+  .section, section { padding: 56px 0 !important; }
+  .container, .container--narrow { padding: 0 20px !important; }
+
+  /* Typography scale */
+  h2 { font-size: clamp(28px, 8vw, 44px) !important; }
+  .hero-headline { font-size: clamp(40px, 12vw, 72px) !important; }
+
+  /* ExL cycle stacks */
+  .exl-cycle, .ExL-cycle {
+    grid-template-columns: 1fr !important;
+    padding: 40px 20px !important;
+  }
+  .exl-cycle-arrow, .ExL-cycle-arrow { display: none !important; }
+
+  /* Photo stacks */
+  .exl-photo-stack { margin-bottom: 40px !important; }
+  .exl-photo-accent { display: none !important; }
+  .exl-photo-main { height: 240px !important; }
+  .artist-images img { height: auto !important; }
+
+  /* Brand story */
+  .brand-story-grid { grid-template-columns: 1fr !important; }
+  .brand-story-images { display: none; } /* hide decorative stacked photos on tiny screens */
+
+  /* Timeline */
+  .timeline-item { grid-template-columns: 80px 32px 1fr !important; }
+  .timeline-label { font-size: 10px !important; padding: 18px 12px 18px 0 !important; }
+
+  /* Footer */
+  .footer-inner { flex-direction: column; padding: 0 20px !important; }
+  .footer-bottom { padding: 20px 20px 0 !important; }
+
+  /* Loader success text */
+  .loader-success-text { font-size: 28px !important; }
+}
+
+/* ── VERY SMALL: 390px and under ── */
+@media (max-width: 390px) {
+  .hero-text { padding: 56px 16px 48px !important; }
+  .container, .container--narrow { padding: 0 16px !important; }
+  .timeline-item { grid-template-columns: 60px 28px 1fr !important; }
+  .timeline-label { font-size: 9px !important; }
+  .hero-tags { gap: 6px !important; }
+  .hero-tag { font-size: 9px !important; padding: 4px 10px !important; }
+}
 </style>
 </head>
 <body>
@@ -1603,49 +1746,49 @@ img[data-lightbox] { cursor: zoom-in; }
       </thead>
       <tbody>
         <tr>
-          <td>
+          <td data-label="Institution">
             <div class="comp-name">Peter Lik</div>
             <a href="https://www.lik.com" target="_blank" rel="noopener" class="comp-url">lik.com →</a>
             <div><span class="comp-tag">Primary</span></div>
           </td>
-          <td>High-end gallery aesthetic, strong scarcity messaging, international presence, established collector base<span class="comp-aside">Study the gallery-to-e-commerce tension. It's the same problem you're solving.</span></td>
-          <td>Research this heavily! Your team's observations will be very valuable</td>
+          <td data-label="What to study">High-end gallery aesthetic, strong scarcity messaging, international presence, established collector base<span class="comp-aside">Study the gallery-to-e-commerce tension. It's the same problem you're solving.</span></td>
+          <td data-label="Where the gap likely is">Research this heavily! Your team's observations will be very valuable</td>
         </tr>
         <tr>
-          <td>
+          <td data-label="Institution">
             <div class="comp-name">House of Spoils</div>
             <a href="https://www.houseofspoils.com" target="_blank" rel="noopener" class="comp-url">houseofspoils.com →</a>
             <div><span class="comp-tag">Primary</span></div>
           </td>
-          <td>Independent fine art, strong editorial tone, distinctive brand identity, engaged community<span class="comp-aside">Voice consistency. Notice how every word on the site sounds like the same person wrote it.</span></td>
-          <td>Research this heavily! Your team's observations will be very valuable</td>
+          <td data-label="What to study">Independent fine art, strong editorial tone, distinctive brand identity, engaged community<span class="comp-aside">Voice consistency. Notice how every word on the site sounds like the same person wrote it.</span></td>
+          <td data-label="Where the gap likely is">Research this heavily! Your team's observations will be very valuable</td>
         </tr>
         <tr>
-          <td>
+          <td data-label="Institution">
             <div class="comp-name">Helm + Oar</div>
             <a href="https://www.helmandoar.com" target="_blank" rel="noopener" class="comp-url">helmandoar.com →</a><br>
 			<div><span class="comp-tag">Secondary</span></div>
           </td>
-          <td>Outdoor lifestyle, photography-driven e-commerce, strong editorial storytelling<span class="comp-aside">Look at how they sequence story and product. Not accident — architecture.</span></td>
-          <td>Research this heavily! Your team's observations will be very valuable</td>
+          <td data-label="What to study">Outdoor lifestyle, photography-driven e-commerce, strong editorial storytelling<span class="comp-aside">Look at how they sequence story and product. Not accident — architecture.</span></td>
+          <td data-label="Where the gap likely is">Research this heavily! Your team's observations will be very valuable</td>
         </tr>
         <tr>
-          <td>
+          <td data-label="Institution">
             <div class="comp-name">Restoration Hardware</div>
             <a href="https://www.rh.com" target="_blank" rel="noopener" class="comp-url">rh.com →</a><br>
 			<div><span class="comp-tag">Adjecent</span></div>
           </td>
-          <td>Aspirational home decor, luxury e-commerce UX, large-format art integration<span class="comp-aside">They make a sofa feel like a lifestyle decision. Range &amp; Focus prints should feel the same way.</span></td>
-          <td>Research this heavily! Your team's observations will be very valuable</td>
+          <td data-label="What to study">Aspirational home decor, luxury e-commerce UX, large-format art integration<span class="comp-aside">They make a sofa feel like a lifestyle decision. Range &amp; Focus prints should feel the same way.</span></td>
+          <td data-label="Where the gap likely is">Research this heavily! Your team's observations will be very valuable</td>
         </tr>
         <tr>
-          <td>
+          <td data-label="Institution">
             <div class="comp-name">Ranger Station</div>
             <a href="https://www.rangerstation.co" target="_blank" rel="noopener" class="comp-url">rangerstation.co →</a>
 			<div><span class="comp-tag">Love this brand!</span></div>
           </td>
-          <td>National park-inspired brand, strong community identity, lifestyle-first design<span class="comp-aside">Community before commerce. The brand earns the sale by building the world first.</span></td>
-          <td>Research this heavily! Your team's observations will be very valuable</td>
+          <td data-label="What to study">National park-inspired brand, strong community identity, lifestyle-first design<span class="comp-aside">Community before commerce. The brand earns the sale by building the world first.</span></td>
+          <td data-label="Where the gap likely is">Research this heavily! Your team's observations will be very valuable</td>
         </tr>
       </tbody>
     </table>
@@ -2106,6 +2249,32 @@ img[data-lightbox] { cursor: zoom-in; }
   });
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeLightbox();
+  });
+
+  // ── MOBILE NAV: tap-to-toggle dropdowns ──
+  document.querySelectorAll('.site-nav > li > button').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.site-nav > li > button[aria-expanded="true"]').forEach(function(other) {
+        if (other !== btn) other.setAttribute('aria-expanded', 'false');
+      });
+      btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+    });
+  });
+  document.querySelectorAll('.nav-dropdown a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      document.querySelectorAll('.site-nav > li > button').forEach(function(b) {
+        b.setAttribute('aria-expanded', 'false');
+      });
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.site-nav')) {
+      document.querySelectorAll('.site-nav > li > button').forEach(function(b) {
+        b.setAttribute('aria-expanded', 'false');
+      });
+    }
   });
 })();
 </script>
