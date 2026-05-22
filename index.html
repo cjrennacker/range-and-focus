@@ -349,6 +349,10 @@ section { position: relative; }
 .auction-image img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; filter: brightness(0.7); }
 .auction-image-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 24px; background: linear-gradient(to top, rgba(0,0,0,0.75), transparent); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--limestone); }
 
+/* ── COMPETITION TABLE SCROLL WRAPPER ── */
+.comp-table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.comp-table { min-width: 520px; }
+
 /* ── COMPETITION ── */
 .competition-section { background: var(--alpine-900); padding: 120px 0; color: var(--limestone); }
 .competition-section .eyebrow { color: var(--marigold); }
@@ -792,10 +796,32 @@ footer .footer-meta { font-size: 11px; font-weight: 500; text-transform: upperca
 
 /* Mobile: collapse nav below logo */
 @media (max-width: 960px) {
-  .site-header-inner { height: auto; flex-direction: column; padding: 16px 24px; gap: 0; }
-  .site-nav { flex-wrap: wrap; justify-content: center; height: auto; gap: 0; }
-  .site-nav > li > a, .site-nav > li > button { padding: 10px 12px; height: auto; }
-  .nav-dropdown { position: static !important; width: 100%; box-shadow: none; }
+  .site-header-inner { height: auto; flex-direction: column; padding: 16px 24px; gap: 8px; }
+  /* Nav becomes a vertical stacked list on mobile */
+  .site-nav { flex-direction: column; align-items: stretch; width: 100%; height: auto; gap: 0; }
+  .site-nav > li { position: static; display: block; width: 100%; }
+  .site-nav > li > a, .site-nav > li > button {
+    width: 100%; height: auto; padding: 10px 16px;
+    justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom-width: 1px !important;
+  }
+  /* Dropdown: block-level, full width, visually nested */
+  .nav-dropdown {
+    position: static !important;
+    display: none;
+    width: 100%;
+    box-shadow: none;
+    border-top: none;
+    background: rgba(0,0,0,0.15);
+    padding: 0;
+    margin: 0;
+  }
+  .site-nav > li > button[aria-expanded="true"] + .nav-dropdown { display: block; }
+  /* Hide hover-based open on mobile — tap only */
+  .site-nav > li:hover .nav-dropdown,
+  .site-nav > li:focus-within .nav-dropdown { display: none; }
+  .site-nav > li > button[aria-expanded="true"] + .nav-dropdown { display: block !important; }
+  .nav-dropdown li a { padding: 10px 28px; font-size: 11px; }
   .header-right { display: none; }
 }
 
@@ -873,42 +899,7 @@ img[data-lightbox] { cursor: zoom-in; }
 }
 
 /* ══ MOBILE BREAKPOINTS ══ */
-@media (max-width: 960px) {
-  .site-header-inner { height: auto; flex-direction: column; padding: 16px 24px; gap: 0; }
-  .site-nav { flex-wrap: wrap; justify-content: center; height: auto; gap: 0; }
-  .site-nav > li > a, .site-nav > li > button { padding: 10px 12px; height: auto; }
-  .nav-dropdown { position: static !important; width: 100%; box-shadow: none; border-top: 1px solid rgba(255,255,255,0.1); }
-  .header-right { display: none; }
-  /* nav only shows when aria-expanded=true */
-  .site-nav > li .nav-dropdown { display: none; }
-  .site-nav > li > button[aria-expanded="true"] + .nav-dropdown { display: block; }
-  .hero-inner { grid-template-columns: 1fr; }
-  .hero-image { height: 50vh; }
-  .trust-grid { grid-template-columns: repeat(2, 1fr); }
-  .brand-story-grid { grid-template-columns: 1fr; gap: 60px; }
-  .scope-item { grid-template-columns: 1fr; gap: 16px; }
-  .scope-item-body ul { grid-template-columns: 1fr; }
-  .auction-grid { grid-template-columns: 1fr; }
-  .auction-stats { grid-template-columns: repeat(2, 1fr); }
-  .metrics-grid { grid-template-columns: 1fr; }
-  .formats-grid { grid-template-columns: 1fr; }
-  .brand-grid { grid-template-columns: 1fr; }
-  .ratio-visual-grid { grid-template-columns: repeat(2, 1fr); }
-  /* Stakeholder: smaller avatar so text has room */
-  .stakeholder-card { grid-template-columns: 72px 1fr; gap: 16px; padding: 24px 0; }
-  .stakeholder-avatar { width: 72px !important; height: 72px !important; }
-  .stakeholder-info { min-width: 0; }
-  .stakeholder-name { font-size: 15px !important; }
-  .stakeholder-role { font-size: 9px !important; letter-spacing: 0.06em !important; line-height: 1.4 !important; }
-  .stakeholder-sub { font-size: 11px !important; }
-  .assets-grid { grid-template-columns: repeat(2, 1fr); }
-  .timeline-item { grid-template-columns: 110px 44px 1fr; }
-  .container { padding: 0 24px; }
-  .container--narrow { padding: 0 24px; }
-  .artist-grid { grid-template-columns: 1fr; gap: 48px; }
-  .audience-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
-  .granite-img { aspect-ratio: 16/9 !important; width: 100% !important; }
-}
+
 
 @media (max-width: 600px) {
   .container, .container--narrow { padding: 0 20px; }
@@ -1640,7 +1631,7 @@ img[data-lightbox] { cursor: zoom-in; }
     <p style="max-width:640px; margin-bottom:8px;">Study these before you design <em>anything</em>. A competitive analysis has been started, but your team's observations will be far more valuable the deeper you go.</p>
     <p style="margin-bottom:0;"><a href="https://rennackerstudio.box.com/s/giawn969iq00zfvsvy74ou5oi5w1qbzf" target="_blank" rel="noopener" style="color:var(--marigold); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; text-decoration:none;">View the competitive analysis →</a></p>
 
-    <table class="comp-table">
+    <div class="comp-table-wrapper"><table class="comp-table">
       <thead>
         <tr>
           <th>Brand</th>
@@ -2277,3 +2268,228 @@ img[data-lightbox] { cursor: zoom-in; }
   .rf-quiz-badge-card, .rf-quiz-lockout-card { padding: 32px 20px; }
 }
 </style>
+
+<script>
+(function() {
+
+// ══ MOBILE NAV ══
+document.querySelectorAll('.site-nav > li > button').forEach(function(btn) {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var isOpen = btn.getAttribute('aria-expanded') === 'true';
+    // Close all others
+    document.querySelectorAll('.site-nav > li > button').forEach(function(b) {
+      if (b !== btn) b.setAttribute('aria-expanded', 'false');
+    });
+    btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+  });
+});
+document.querySelectorAll('.nav-dropdown a').forEach(function(link) {
+  link.addEventListener('click', function() {
+    document.querySelectorAll('.site-nav > li > button').forEach(function(b) {
+      b.setAttribute('aria-expanded', 'false');
+    });
+  });
+});
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.site-nav')) {
+    document.querySelectorAll('.site-nav > li > button').forEach(function(b) {
+      b.setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+
+// ══ QUIZ ENGINE ══
+var RF_QUESTIONS = [
+  { type:'mc', q:'How many scope items should each team choose to produce?', options:['All of them','Two','Three','Four'], answer:2 },
+  { type:'mc', q:'Which platform is specified as the destination for the website redesign?', options:['Squarespace','WordPress','Webflow','Shopify'], answer:3 },
+  { type:'mc', q:'How many usability testing participants are required for the Web and UX scope item?', options:['5','8','10','15'], answer:2 },
+  { type:'mc', q:'The brief describes the website as a gallery that happens to sell things. What does this mean for design?', options:['Prioritise the cart above everything','Prioritise storytelling over add-to-cart mechanics','Make it look like a museum with no e-commerce','Focus only on mobile'], answer:1 },
+  { type:'mc', q:'For the AR room viewer, which device does the brief specifically say it must work on?', options:['Android phones','iPad','iPhone','Desktop browsers'], answer:2 },
+  { type:'mc', q:'How many editions per image exist in the vault?', options:['3','5','10','25'], answer:1 },
+  { type:'mc', q:'What is the opening bid for a vault auction?', options:['$500','$800','$1,000','$1,200'], answer:3 },
+  { type:'mc', q:'How long does a vault auction run?', options:['7 days','14 days','30 days','60 days'], answer:2 },
+  { type:'mc', q:'What happens if no bids are placed during the 30-day window?', options:['The image retires','The price drops 25%','The auction resets for another 30 days','It becomes a gallery edition'], answer:2 },
+  { type:'mc', q:'How many gallery editions are available per image?', options:['10','25','50','100'], answer:2 },
+  { type:'mc', q:'What does a buyer receive electronically after winning?', options:['A signed physical certificate','A digital certificate of authenticity','A free second print','A vault membership'], answer:1 },
+  { type:'mc', q:'Why does the trail materials scope list weight and size as big constraints?', options:['They need to fit through a mail slot','They must fit in a fully-loaded camera bag','They will go through retail stores','They must survive being wet'], answer:1 },
+  { type:'mc', q:'Which social platform does the brief say Range and Focus should probably also be on?', options:['YouTube','Pinterest','TikTok','Threads'], answer:2 },
+  { type:'mc', q:'How many total size options are available across standard and panoramic prints?', options:['4','6','8','10'], answer:2 },
+  { type:'mc', q:'How many frame options are available?', options:['4','5','6','8'], answer:2 },
+  { type:'mc', q:'Which typeface is specified for headlines and display use?', options:['Work Sans','Playfair Display','GT America','Freight Display'], answer:1 },
+  { type:'mc', q:'What is the hex code for R&F Alpine, the primary brand color?', options:['#6b331e','#ca9c37','#2c3820','#437394'], answer:2 },
+  { type:'mc', q:'What is the name of the R&F neutral warm off-white color?', options:['Mesa','Limestone','Glacier','Marigold'], answer:1 },
+  { type:'mc', q:'How many countries have Cameron and Josh traveled to together?', options:['2','3','4','5'], answer:1 },
+  { type:'mc', q:'How many national parks have Cameron and Josh visited?', options:['26','33','38','45'], answer:2 },
+  { type:'mc', q:'What is the Range and Focus Instagram handle?', options:['@rennackerart','@rangeandfocusphoto','@rangeandfocus','@cameronrennacker'], answer:2 },
+  { type:'mc', q:'What is Sahara Rennacker role on the team?', options:['Senior Assistant to the Photographer','Chief Trail Officer','Brand Director','Art Director'], answer:1 },
+  { type:'mc', q:'What is the key difference between urgency and pressure in the context of scarcity?', options:['Urgency uses timers; pressure uses copy','Urgency is honest; pressure is manipulative','Urgency applies to auctions only','There is no meaningful difference'], answer:1 },
+  { type:'mc', q:'What does the brief say about AI-generated imagery?', options:['Encouraged for social only','Can be used if disclosed','Not used, and that is a stance, not a limitation','Permitted for sizzle reels only'], answer:2 },
+  { type:'mc', q:'What does the winning concept stand to receive?', options:['A cash prize','A letter of recommendation','Consideration for real-world development on the Shopify build','Publication in a design magazine'], answer:2 },
+  { type:'mc', q:'Which AR solution is NOT listed in the brief as a research option?', options:['Shopify native usdz/glb','Zakeke','Threekit','Adobe Aero'], answer:3 },
+  { type:'mc', q:'What is the opening bid, and is there a ceiling?', options:['$800, no ceiling','$1,200 with a $10,000 ceiling','$1,200, no ceiling and no reserve','$500, market decides'], answer:2 },
+  { type:'mc', q:'After winning an auction, when does size and frame selection happen?', options:['Before bidding','During the auction','After winning, in the post-win flow','At time of delivery'], answer:2 },
+  { type:'multi', q:'Which of the following are listed as standard print sizes? Select all that apply.', options:['12 x 9 in','18 x 12 in','24 x 18 in','48 x 36 in','60 x 40 in'], answers:[0,2,3] },
+  { type:'multi', q:'Which deliverables are part of the Web and UX scope item? Select all that apply.', options:['Low-fidelity wireframes in Figma','A printed lookbook','High-fidelity prototypes for mobile and desktop','Developer-ready design documentation','A physical prototype'], answers:[0,2,3] }
+];
+
+var LOCKOUT_MS  = 5 * 60 * 1000;
+var KEY_LOCKOUT = 'rf_quiz_lockout_until';
+var KEY_CREDIT  = 'rf_quiz_credited';
+var questions=[], currentQ=0, score=0, selectedAnswers=[];
+var lockoutTimer=null;
+
+function initRFQuiz() {
+  var triggerEl=document.getElementById('quiz-trigger');
+  var startBtn=document.getElementById('quiz-start-btn');
+  var modalEl=document.getElementById('quiz-modal');
+  var successEl=document.getElementById('quiz-success');
+  var lockoutEl=document.getElementById('quiz-lockout');
+  var qArea=document.getElementById('quiz-question-area');
+  var progressFill=document.getElementById('quiz-progress');
+  var counterEl=document.getElementById('quiz-counter');
+  var submitBtn=document.getElementById('quiz-submit-btn');
+  var countdownEl=document.getElementById('quiz-countdown');
+  if(!triggerEl||!startBtn||!modalEl||!successEl||!lockoutEl||!qArea||!progressFill||!counterEl||!submitBtn||!countdownEl) return;
+
+  var triggered=false;
+  function onScroll() {
+    if(triggered) return;
+    if(window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-80) {
+      triggered=true;
+      triggerEl.style.display='block';
+      window.removeEventListener('scroll',onScroll);
+    }
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+
+  function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+  function isLocked(){try{return Date.now()<parseInt(localStorage.getItem(KEY_LOCKOUT)||'0');}catch(e){return false;}}
+  function lockRemaining(){try{return Math.max(0,parseInt(localStorage.getItem(KEY_LOCKOUT)||'0')-Date.now());}catch(e){return 0;}}
+  function setLock(){try{localStorage.setItem(KEY_LOCKOUT,Date.now()+LOCKOUT_MS);}catch(e){}}
+  function hasCredited(){try{return !!localStorage.getItem(KEY_CREDIT);}catch(e){return false;}}
+  function markCredit(){try{localStorage.setItem(KEY_CREDIT,'1');}catch(e){}}
+
+  if(hasCredited()) startBtn.textContent='Take it again';
+
+  startBtn.addEventListener('click',function(){
+    if(isLocked()){showLockout();return;}
+    questions=shuffle(RF_QUESTIONS).slice(0,3);
+    currentQ=0; score=0;
+    modalEl.style.display='flex';
+    document.body.style.overflow='hidden';
+    renderQ();
+  });
+
+  function renderQ(){
+    var q=questions[currentQ];
+    progressFill.style.width=((currentQ/3)*100)+'%';
+    counterEl.textContent='Question '+(currentQ+1)+' of 3';
+    submitBtn.disabled=true; submitBtn.textContent='Submit answer'; selectedAnswers=[];
+    var h='<p class="rf-quiz-q-text">'+q.q+'</p>';
+    if(q.type==='mc'){
+      h+='<div class="rf-quiz-options" id="rf-opts">';
+      q.options.forEach(function(opt,i){h+='<label class="rf-quiz-option" data-idx="'+i+'"><input type="radio" name="rfo" value="'+i+'"> '+opt+'</label>';});
+      h+='</div>';
+    } else if(q.type==='multi'){
+      h+='<p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--alpine-400);margin-bottom:12px;">Select all that apply</p>';
+      h+='<div class="rf-quiz-options" id="rf-opts">';
+      q.options.forEach(function(opt,i){h+='<label class="rf-quiz-option" data-idx="'+i+'"><input type="checkbox" name="rfo" value="'+i+'"> '+opt+'</label>';});
+      h+='</div>';
+    }
+    h+='<div class="rf-quiz-feedback" id="rf-fb"></div>';
+    qArea.innerHTML=h;
+    if(q.type==='mc'){
+      qArea.querySelectorAll('.rf-quiz-option').forEach(function(lbl){
+        lbl.addEventListener('click',function(){
+          qArea.querySelectorAll('.rf-quiz-option').forEach(function(l){l.classList.remove('selected');});
+          lbl.classList.add('selected'); lbl.querySelector('input').checked=true;
+          selectedAnswers=[parseInt(lbl.dataset.idx)]; submitBtn.disabled=false;
+        });
+      });
+    } else if(q.type==='multi'){
+      qArea.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
+        cb.addEventListener('change',function(){
+          cb.closest('.rf-quiz-option').classList.toggle('selected',cb.checked);
+          selectedAnswers=[];
+          qArea.querySelectorAll('input[type="checkbox"]:checked').forEach(function(c){selectedAnswers.push(parseInt(c.value));});
+          submitBtn.disabled=selectedAnswers.length===0;
+        });
+      });
+    }
+  }
+
+  submitBtn.addEventListener('click',function(){
+    if(submitBtn.textContent==='Next question'||submitBtn.textContent==='See results'){
+      currentQ++; if(currentQ<3) renderQ(); else finishQuiz(); return;
+    }
+    var q=questions[currentQ],fb=document.getElementById('rf-fb'),opts=document.getElementById('rf-opts'),correct=false;
+    if(q.type==='mc'){
+      correct=selectedAnswers[0]===q.answer;
+      if(opts){opts.classList.add('revealed');opts.querySelectorAll('.rf-quiz-option').forEach(function(lbl){var idx=parseInt(lbl.dataset.idx);if(idx===q.answer)lbl.classList.add('correct');else if(selectedAnswers.indexOf(idx)>-1)lbl.classList.add('wrong');});}
+      if(fb){fb.className='rf-quiz-feedback '+(correct?'correct':'wrong');fb.textContent=correct?'Correct.':'Not quite. The answer is: '+q.options[q.answer];fb.style.display='block';}
+    } else if(q.type==='multi'){
+      var ss=selectedAnswers.slice().sort().join(','),as=q.answers.slice().sort().join(',');correct=ss===as;
+      if(opts){opts.classList.add('revealed');opts.querySelectorAll('.rf-quiz-option').forEach(function(lbl){var idx=parseInt(lbl.dataset.idx);if(q.answers.indexOf(idx)>-1)lbl.classList.add('correct');else if(selectedAnswers.indexOf(idx)>-1)lbl.classList.add('wrong');});}
+      if(fb){fb.className='rf-quiz-feedback '+(correct?'correct':'wrong');fb.textContent=correct?'Correct.':'Not quite. Correct: '+q.answers.map(function(i){return q.options[i];}).join(', ');fb.style.display='block';}
+    }
+    if(correct) score++;
+    submitBtn.disabled=false;
+    submitBtn.textContent=currentQ<2?'Next question':'See results';
+  });
+
+  function finishQuiz(){
+    modalEl.style.display='none';
+    if(score===3){markCredit();successEl.style.display='flex';}
+    else{setLock();showLockout();}
+  }
+  function showLockout(){lockoutEl.style.display='flex';document.body.style.overflow='hidden';runCountdown();}
+  function runCountdown(){
+    if(lockoutTimer) clearInterval(lockoutTimer);
+    lockoutTimer=setInterval(function(){
+      var rem=lockRemaining();
+      if(rem<=0){clearInterval(lockoutTimer);countdownEl.textContent='0:00';var cb=document.getElementById('quiz-lockout-close');if(cb)cb.textContent='Try again';return;}
+      var m=Math.floor(rem/60000),s=Math.floor((rem%60000)/1000);
+      countdownEl.textContent=m+':'+(s<10?'0':'')+s;
+    },500);
+  }
+  document.getElementById('quiz-lockout-close').addEventListener('click',function(){lockoutEl.style.display='none';document.body.style.overflow='';if(lockoutTimer)clearInterval(lockoutTimer);});
+  document.getElementById('quiz-close-success').addEventListener('click',function(){successEl.style.display='none';document.body.style.overflow='';if(hasCredited())startBtn.textContent='Take it again';});
+  modalEl.addEventListener('click',function(e){if(e.target===modalEl){modalEl.style.display='none';document.body.style.overflow='';}});
+
+  // ══ CAMERON EASTER EGG ══
+  // Uses stopPropagation so lightbox never fires on triple-click
+  var eggTip=document.createElement('div');
+  eggTip.style.cssText='display:none;position:fixed;z-index:3000;background:#2c3820;border:1px solid #ca9c37;padding:10px 16px;font-size:12px;font-weight:600;color:#ca9c37;max-width:240px;text-align:center;line-height:1.4;box-shadow:0 8px 28px rgba(0,0,0,0.4);pointer-events:none;';
+  eggTip.textContent="That's the instructor. He wrote this brief. No pressure.";
+  document.body.appendChild(eggTip);
+
+  document.querySelectorAll('.stakeholder-avatar img').forEach(function(img){
+    var clicks=0,clickTimer=null;
+    img.style.cursor='pointer';
+    img.addEventListener('click',function(e){
+      e.stopPropagation();
+      clicks++;
+      if(clickTimer) clearTimeout(clickTimer);
+      clickTimer=setTimeout(function(){clicks=0;},700);
+      if(clicks>=3){
+        clicks=0;
+        var rect=img.getBoundingClientRect();
+        eggTip.style.display='block';
+        var left=Math.max(8,rect.left+rect.width/2-120);
+        var top=rect.top+window.scrollY-70;
+        if(top<8) top=rect.bottom+window.scrollY+10;
+        eggTip.style.left=left+'px';
+        eggTip.style.top=top+'px';
+        setTimeout(function(){eggTip.style.display='none';},3500);
+      }
+    });
+  });
+}
+
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initRFQuiz);}else{initRFQuiz();}
+
+})();
+</script>
+</body>
+</html>
