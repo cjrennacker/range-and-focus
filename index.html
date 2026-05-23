@@ -795,6 +795,16 @@ footer .footer-meta { font-size: 11px; font-weight: 500; text-transform: upperca
   flex-shrink: 0;
 }
 
+/* ── ARTIST SECTION ── */
+.artist-section { background: var(--limestone); padding: 120px 0; }
+.artist-section .eyebrow { color: var(--canyon); }
+.artist-section h2 { margin-bottom: 32px; color: var(--alpine); }
+.artist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-bottom: 64px; }
+.artist-text p { color: var(--alpine-500); margin-bottom: 18px; font-size: 15px; }
+.artist-text p:last-child { margin-bottom: 0; }
+.artist-images { display: block; }
+.artist-images img { width: 100%; height: auto; object-fit: contain; display: block; border-radius: 0; }
+
 /* Mobile: collapse nav below logo */
 @media (max-width: 960px) {
   .site-header-inner { height: auto; flex-direction: column; padding: 16px 24px; gap: 8px; }
@@ -907,16 +917,6 @@ img[data-lightbox] { cursor: zoom-in; }
   border-left-color: var(--canyon) !important;
 }
 
-/* ── ARTIST SECTION ── */
-.artist-section { background: var(--limestone); padding: 120px 0; }
-.artist-section .eyebrow { color: var(--canyon); }
-.artist-section h2 { margin-bottom: 32px; color: var(--alpine); }
-.artist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-bottom: 64px; }
-.artist-text p { color: var(--alpine-500); margin-bottom: 18px; font-size: 15px; }
-.artist-text p:last-child { margin-bottom: 0; }
-.artist-images { display: block; }
-.artist-images img { width: 100%; height: auto; object-fit: contain; display: block; border-radius: 0; }
-
 
 /* ══ AUDIENCE GRID — stacks image below text on mobile ══ */
 .audience-grid {
@@ -971,7 +971,7 @@ img[data-lightbox] { cursor: zoom-in; }
       <div class="loader-step"></div>
       <div class="loader-step"></div>
     </div>
-    <p class="loader-hang-tight">— Hang tight —</p>
+    <p class="loader-hang-tight">Hang tight —</p>
     <p class="loader-phrase" id="loader-phrase">we're finding the trailhead.</p>
     <div class="loader-bar-track">
       <div class="loader-bar-fill" id="loader-bar"></div>
@@ -1190,7 +1190,7 @@ img[data-lightbox] { cursor: zoom-in; }
         <p>Follow the journey on Instagram <a href="https://www.instagram.com/rangeandfocus/" target="_blank" rel="noopener" style="color:var(--canyon); font-weight:600; text-decoration:none; border-bottom:1px solid var(--canyon);">@rangeandfocus</a>. And if you have questions about national parks, hike recommendations, or where to go for a new adventure, send a message. By this point, they're fairly qualified to answer.</p>
       </div>
       <div class="artist-images">
-        <img src="https://images.squarespace-cdn.com/content/v1/60bd7db0fbad083dee475913/4147ce7b-20ec-42ee-a97a-ed1b8c533073/20230926_Cameron-and-Josh_9646.jpg?format=2500w" alt="Cameron and Josh in Banff National Park" data-lightbox data-caption="Cameron and Josh — Banff National Park, Alberta" style="width:100%; height:auto; object-fit:contain; display:inline;">
+        <img src="https://images.squarespace-cdn.com/content/v1/60bd7db0fbad083dee475913/4147ce7b-20ec-42ee-a97a-ed1b8c533073/20230926_Cameron-and-Josh_9646.jpg?format=2500w" alt="Cameron and Josh in Banff National Park" data-lightbox data-caption="Cameron and Josh — Banff National Park, Alberta" style="width:100%; height:auto; object-fit:contain; display:block;">
       </div>
     </div>
   </div>
