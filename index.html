@@ -725,6 +725,7 @@ footer .footer-meta { font-size: 11px; font-weight: 500; text-transform: upperca
   position: sticky;
   top: 0;
   z-index: 100;
+  overflow: visible;
 }
 .site-header-inner {
   display: flex; justify-content: space-between; align-items: center;
@@ -803,8 +804,8 @@ footer .footer-meta { font-size: 11px; font-weight: 500; text-transform: upperca
   .site-nav > li > a, .site-nav > li > button { padding: 10px 12px; height: auto; }
   /* Dropdown: full-width strip below the nav bar */
   .nav-dropdown {
-    position: fixed !important;
-    top: auto; left: 0; right: 0;
+    position: absolute !important;
+    top: 100%; left: 0; right: 0;
     width: 100%;
     display: none;
     box-shadow: 0 8px 16px rgba(0,0,0,0.15);
@@ -838,7 +839,8 @@ footer .footer-meta { font-size: 11px; font-weight: 500; text-transform: upperca
   .timeline-item { grid-template-columns: 110px 44px 1fr; }
   .container { padding: 0 24px; }
   .container--narrow { padding: 0 24px; }
-  .artist-grid { grid-template-columns: 1fr; gap: 48px; }
+  .artist-grid { display: block; }
+  .artist-images { margin-top: 40px; }
   /* ── Stakeholders ── */
   .stakeholder-card { grid-template-columns: 72px 1fr; gap: 16px; padding: 24px 0; }
   .stakeholder-avatar { width: 72px !important; height: 72px !important; }
