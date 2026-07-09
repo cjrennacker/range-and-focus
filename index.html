@@ -298,18 +298,6 @@ section { position: relative; }
 .format-size  { font-size: 15px; font-weight: 400; color: var(--limestone); }
 .format-metric { font-size: 13px; color: var(--alpine-300); font-style: italic; }
 
-.frames-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
-.frame-item {
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
-  padding: 14px 16px; font-size: 14px; color: var(--alpine-100);
-  display: flex; align-items: center; gap: 12px;
-}
-.frame-circle {
-  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
-  overflow: hidden; border: 2px solid rgba(255,255,255,0.15);
-}
-.frame-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
 /* Aspect ratio visual boxes */
 .ratio-visual-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 48px; }
 .ratio-box { display: flex; flex-direction: column; align-items: center; gap: 12px; }
@@ -321,40 +309,12 @@ section { position: relative; }
 }
 .ratio-label { font-size: 12px; color: var(--alpine-300); text-align: center; line-height: 1.5; }
 
-/* ── AUCTION ── */
-.auction-section { background: var(--canyon-900); color: var(--limestone); padding: 120px 0; position: relative; overflow: hidden; }
-.auction-section::before {
-  font-family: 'Playfair Display', serif; font-size: clamp(100px,18vw,240px); font-weight: 900;
-  color: rgba(255,255,255,0.03); white-space: nowrap; pointer-events: none; letter-spacing: -0.04em;
-}
-.auction-section .eyebrow { color: var(--marigold); }
-.auction-section h2 { color: var(--limestone); margin-bottom: 24px; }
-.auction-section p { color: rgba(255,255,255,0.75); }
-.auction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 60px; align-items: start; position: relative; z-index: 2; }
-
-/* Auction stats */
-.auction-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 48px; }
-.auction-stat { background: rgba(255,255,255,0.06); padding: 24px 20px; text-align: center; }
-.auction-stat-number { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: var(--marigold); display: block; line-height: 1; margin-bottom: 6px; }
-.auction-stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.6); }
-
-.auction-rules { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 40px; }
-.auction-rule { display: flex; gap: 20px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.07); align-items: flex-start; }
-.auction-rule:last-child { border-bottom: none; }
-.auction-rule-icon { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--marigold); line-height: 1; flex-shrink: 0; width: 28px; }
-.auction-rule-text { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
-.auction-rule-text strong { color: var(--limestone); display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; font-family: 'Work Sans', sans-serif; }
-
-.auction-image { position: relative; }
-.auction-image img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; filter: brightness(0.7); }
-.auction-image-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 24px; background: linear-gradient(to top, rgba(0,0,0,0.75), transparent); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--limestone); }
-
 /* ── COMPETITION TABLE SCROLL WRAPPER ── */
 .comp-table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .comp-table { min-width: 520px; }
 
 /* ── COMPETITION ── */
-.competition-section { background: var(--alpine-900); padding: 120px 0; color: var(--limestone); }
+.competition-section { background: var(--canyon-900); padding: 120px 0; color: var(--limestone); }
 .competition-section .eyebrow { color: var(--marigold); }
 .competition-section h2 { color: var(--limestone); margin-bottom: 24px; }
 .competition-section p { color: var(--alpine-100); }
@@ -534,61 +494,6 @@ section { position: relative; }
 }
 .metric-card:hover::after { transform: scaleX(1); }
 
-/* ── FRAME PICKER ── */
-.frame-picker-modal {
-  display: none; position: fixed; inset: 0; z-index: 500;
-  align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.7); padding: 40px;
-  backdrop-filter: blur(4px);
-}
-.frame-picker-modal.open { display: flex; }
-.frame-picker-card {
-  background: var(--alpine-900); border: 1px solid var(--alpine-500);
-  max-width: 560px; width: 100%; position: relative;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-}
-.frame-picker-image {
-  width: 100%; height: 320px; object-fit: cover; display: block;
-  transition: opacity 0.2s ease;
-}
-.frame-picker-body { padding: 28px 32px 32px; }
-.frame-picker-name {
-  font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700;
-  color: var(--limestone); margin-bottom: 6px;
-}
-.frame-picker-sub {
-  font-size: 11px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.2em; color: var(--marigold);
-}
-.frame-picker-nav {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-top: 24px;
-}
-.frame-picker-btn {
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-  color: var(--limestone); width: 44px; height: 44px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; cursor: pointer; transition: background 0.2s;
-}
-.frame-picker-btn:hover { background: rgba(202,156,55,0.15); border-color: var(--marigold); }
-.frame-picker-dots {
-  display: flex; gap: 8px; align-items: center;
-}
-.frame-picker-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: rgba(255,255,255,0.2); transition: background 0.2s;
-  cursor: pointer;
-}
-.frame-picker-dot.active { background: var(--marigold); }
-.frame-picker-close {
-  position: absolute; top: 12px; right: 16px;
-  background: none; border: none; color: var(--alpine);
-  font-size: 24px; cursor: pointer; line-height: 1;
-  transition: color 0.2s;
-}
-.frame-picker-close:hover { color: var(--canyon); }
-.frame-item { cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease; }
-.frame-item:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
 footer { background: var(--alpine-900); border-top: 1px solid var(--alpine-500); padding: 72px 0 52px; color: var(--limestone); text-align: center; }
 footer svg { max-width: 180px; margin: 0 auto 28px; display: block; }
 footer .tagline { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: var(--mesa); margin-bottom: 36px; }
@@ -839,8 +744,6 @@ footer .footer-meta { font-size: 11px; font-weight: 500; text-transform: upperca
   .brand-story-grid { grid-template-columns: 1fr; gap: 60px; }
   .scope-item { grid-template-columns: 1fr; gap: 16px; }
   .scope-item-body ul { grid-template-columns: 1fr; }
-  .auction-grid { grid-template-columns: 1fr; }
-  .auction-stats { grid-template-columns: repeat(2, 1fr); }
   .metrics-grid { grid-template-columns: 1fr; }
   .formats-grid { grid-template-columns: 1fr; }
   .brand-grid { grid-template-columns: 1fr; }
@@ -1031,7 +934,6 @@ img[data-lightbox] { cursor: zoom-in; }
             <li><a href="#assets">Brand assets</a></li>
             <li><a href="#palette">Brand system</a></li>
             <li><a href="#product">Print specifications</a></li>
-            <li><a href="#vault">Collector's vault</a></li>
             <li><a href="#competition">Competition</a></li>
           </ul>
         </li>
@@ -1302,14 +1204,14 @@ img[data-lightbox] { cursor: zoom-in; }
     <div class="scope-item">
       <div class="scope-item-label"><span>03</span>Development</div>
       <div class="scope-item-body">
-        <p>This team turns the Figma file into the actual Shopify site. You're building from what the research and mobile teams validate and hand off, not designing from scratch.</p>
+        <p>This team builds the front end that gets this redesign as close to production-ready as possible. You're building from what the research and mobile teams validate and hand off, not designing from scratch. You won't have direct access to a live Shopify store for this project — but every decision should be made knowing that Shopify is where this site ultimately goes.</p>
         <ul style="grid-template-columns:1fr; gap:16px 0;">
-          <li><strong>Set up the workflow.</strong> Stand up a Shopify development theme and use GitHub for version control. Agree on a branching and review process with your team before writing code.</li>
-          <li><strong>Build to the Figma file.</strong> Translate the provided high-fidelity desktop designs into Shopify theme templates and sections (Liquid, HTML/CSS/JS) — matching layout, type, color, and spacing exactly.</li>
-          <li><strong>Build in components.</strong> Build reusable sections and blocks for anything that repeats (product cards, size/frame selectors, auction listings) rather than one-off page templates.</li>
+          <li><strong>Set up the workflow.</strong> Stand up a front-end build (HTML/CSS/JS) structured the way a Shopify theme would be — reusable sections and templates — and use GitHub for version control. Agree on a branching and review process with your team before writing code.</li>
+          <li><strong>Build to the Figma file.</strong> Translate the provided high-fidelity desktop designs into working front-end templates and components — matching layout, type, color, and spacing exactly.</li>
+          <li><strong>Build in components.</strong> Build reusable sections and blocks for anything that repeats (product cards, size/frame selectors, print detail layouts) rather than one-off page templates.</li>
           <li><strong>Bring the AR viewer to life.</strong> The redesign includes an AR room viewer. Research and recommend a Shopify-compatible solution (native .usdz/.glb, Zakeke, Threekit, or other), and prioritize iPhone, since that's where most customers will be.</li>
           <li><strong>Take the mobile hand-off.</strong> Once the mobile team's component library and wireframe are ready, extend the build to match those breakpoints.</li>
-          <li><strong>QA against the design.</strong> Cross-check the live build against the Figma file and the research team's findings, and fix discrepancies before calling anything done.</li>
+          <li><strong>QA against the design.</strong> Cross-check your build against the Figma file and the research team's findings, and fix discrepancies before calling anything done.</li>
         </ul>
         <div class="scope-item-note">Every pixel that drifts from the Figma file is a small argument against the brand. Build like someone is going to hold your work up next to the design and compare.</div>
       </div>
@@ -1350,10 +1252,10 @@ img[data-lightbox] { cursor: zoom-in; }
         <div class="asset-card-sub">The full 2026 Range &amp; Focus website redesign file. This is your starting point for every deliverable.</div>
         <span class="asset-download">Open in Figma →</span>
       </a>
-      <a href="https://www.figma.com/design/JaNlhs3w2X1PcwN8dydS7a/2024-Rennacker-Art-Social-Media-Planning?node-id=253-8979&t=2KpD7ULatAY0OIEP-1" target="_blank" rel="noopener" class="asset-card">
-        <div class="asset-card-title">Content archive</div>
-        <div class="asset-card-sub">BTS photos, in-home mockups, campaign strategy, brand photography, and more</div>
-        <span class="asset-download">Open in Figma →</span>
+      <a href="#" target="_blank" rel="noopener" class="asset-card"><!-- TODO(Cameron): drop in the real Brand Guidelines URL -->
+        <div class="asset-card-title">Brand guidelines</div>
+        <div class="asset-card-sub">The full Range &amp; Focus brand guidelines. Read this before you make a single design decision.</div>
+        <span class="asset-download">Download →</span>
       </a>
     </div>
   </div>
@@ -1489,7 +1391,7 @@ img[data-lightbox] { cursor: zoom-in; }
   <div class="container">
     <span class="eyebrow">Print specifications</span>
     <h2>Our prints.</h2>
-    <p style="max-width:640px; margin-bottom:0;">Every winning bid and gallery purchase has difficult choices. Choosing the right size, frame, and a wall for your print to go on can be several tough decisions to make. How can we help to guide the customer rather than leave them to decide on their own?</p>
+    <p style="max-width:640px; margin-bottom:0;">Choosing the right print size for a space is one of the toughest decisions a buyer makes. How can we help guide the customer, rather than leave them to decide on their own?</p>
 
     <div class="formats-grid">
       <div>
@@ -1500,49 +1402,15 @@ img[data-lightbox] { cursor: zoom-in; }
           <div class="format-item"><span class="format-size">36 × 27 in</span><span class="format-metric">91.44 × 68.58 cm</span></div>
           <div class="format-item"><span class="format-size">48 × 36 in</span><span class="format-metric">121.92 × 91.44 cm</span></div>
         </div>
-        <div class="format-group" style="margin-top:40px;">
+      </div>
+
+      <div>
+        <div class="format-group">
           <h4>Panoramic prints</h4>
           <div class="format-item"><span class="format-size">24 × 8 in</span><span class="format-metric">60.96 × 20.32 cm</span></div>
           <div class="format-item"><span class="format-size">36 × 12 in</span><span class="format-metric">91.44 × 30.48 cm</span></div>
           <div class="format-item"><span class="format-size">48 × 16 in</span><span class="format-metric">121.92 × 40.64 cm</span></div>
           <div class="format-item"><span class="format-size">54 × 18 in</span><span class="format-metric">137.16 × 45.72 cm</span></div>
-        </div>
-      </div>
-
-      <div>
-        <div class="format-group">
-          <h4>Frame options</h4>
-          <div class="frames-grid">
-            <div class="frame-item" data-frame="0" role="button" tabindex="0" aria-label="View Modern metal black frame">
-              <div class="frame-circle"><img src="https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-metal-black.jpg" alt="Modern metal black frame sample"></div>
-              Modern metal black
-            </div>
-            <div class="frame-item" data-frame="1" role="button" tabindex="0" aria-label="View Modern metal pewter frame">
-              <div class="frame-circle"><img src="https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-metal-pewter.jpg" alt="Modern metal pewter frame sample"></div>
-              Modern metal pewter
-            </div>
-            <div class="frame-item" data-frame="2" role="button" tabindex="0" aria-label="View Slim black frame">
-              <div class="frame-circle"><img src="https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-black.jpg" alt="Slim black frame sample"></div>
-              Slim black
-            </div>
-            <div class="frame-item" data-frame="3" role="button" tabindex="0" aria-label="View Slim white frame">
-              <div class="frame-circle"><img src="https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-white.jpg" alt="Slim white frame sample"></div>
-              Slim white
-            </div>
-            <div class="frame-item" data-frame="4" role="button" tabindex="0" aria-label="View Slim silver frame">
-              <div class="frame-circle"><img src="https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-silver.jpg" alt="Slim silver frame sample"></div>
-              Slim silver
-            </div>
-            <div class="frame-item" data-frame="5" role="button" tabindex="0" aria-label="View Slim gold frame">
-              <div class="frame-circle"><img src="https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-gold.jpg" alt="Slim gold frame sample"></div>
-              Slim gold
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top:32px; padding:24px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09);">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.2em; color:var(--marigold); margin-bottom:14px;">Certificate of authenticity</div>
-          <p style="font-size:14px; color:var(--alpine-100); line-height:1.7;">Every purchase includes a digital certificate of authenticity delivered electronically via email after fulfillment. Design the certificate as part of the post-purchase experience to feel like the final mark of quality and care.</p>
         </div>
       </div>
     </div>
@@ -1575,41 +1443,6 @@ img[data-lightbox] { cursor: zoom-in; }
       <p style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.2em; color:var(--marigold); margin-bottom:12px;">Panoramic print — 3:1 horizontal example</p>
       <img src="https://images.squarespace-cdn.com/content/v1/60bd7db0fbad083dee475913/e1f491e9-ace4-48cb-b55c-e8d04c560024/Na+Pali+Coast_Na+Pali+Coast%2C+Kauai_Hawaii_United+States_Rennacker+Art-9168_20240509.jpg?format=2500w" alt="Na Pali Coast, Kauai Hawaii" style="width:100%; display:block; object-fit:cover;">
       <p style="font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.1em; color:var(--alpine-300); margin-top:8px;">Na Pali Coast, Kauai, Hawaii</p>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════ AUCTION DETAIL ══════════ -->
-<section class="auction-section" id="vault">
-  <div class="container">
-    <span class="eyebrow">The Collector's Vault</span>
-    <h2>How the auction works.</h2>
-    <p style="max-width:600px; margin-bottom:0;">Five editions. Thirty days. Highest bid wins. Then it's gone — possibly for years. Vault launches are events we want everyone to line up for.</p>
-
-    <!-- Stats -->
-    <div class="auction-stats" style="margin-top:40px;">
-      <div class="auction-stat"><span class="auction-stat-number">5</span><span class="auction-stat-label">Editions per image</span></div>
-      <div class="auction-stat"><span class="auction-stat-number">50</span><span class="auction-stat-label">Gallery edition limit</span></div>
-      <div class="auction-stat"><span class="auction-stat-number">$1,200</span><span class="auction-stat-label">Opening bid</span></div>
-      <div class="auction-stat"><span class="auction-stat-number">30</span><span class="auction-stat-label">Day auction window</span></div>
-      <div class="auction-stat"><span class="auction-stat-number">6</span><span class="auction-stat-label">Frame options</span></div>
-      <div class="auction-stat"><span class="auction-stat-number">8</span><span class="auction-stat-label">Size options</span></div>
-    </div>
-
-    <div class="auction-grid">
-      <div>
-        <div class="auction-rules">
-          <div class="auction-rule"><div class="auction-rule-icon">01</div><div class="auction-rule-text"><strong>Opening bid</strong>Every collector's edition auction opens at $1,200. No ceiling. No reserve. The market decides.</div></div>
-          <div class="auction-rule"><div class="auction-rule-icon">02</div><div class="auction-rule-text"><strong>30-day window</strong>Auctions run for 30 days from open date. If no bids are placed, the auction resets for another 30 days.</div></div>
-          <div class="auction-rule"><div class="auction-rule-icon">03</div><div class="auction-rule-text"><strong>Edition limit</strong>There will only ever be five total prints per image. Each auction sells one. When all five are sold, the image retires completely.</div></div>
-          <div class="auction-rule"><div class="auction-rule-icon">04</div><div class="auction-rule-text"><strong>Post-win selection</strong>After winning, the buyer selects their preferred print size and frame. After delivery, a certificate of authenticity will be emailed to the client.</div></div>
-          <div class="auction-rule"><div class="auction-rule-icon">05</div><div class="auction-rule-text"><strong>Between auctions</strong>How does the brand gain traction for new releases? Email, social, waitlists, storytelling? Your team should propose a strategy.</div></div>
-        </div>
-      </div>
-      <div class="auction-image">
-        <img src="https://images.squarespace-cdn.com/content/v1/60bd7db0fbad083dee475913/cceb8443-be2b-48a8-b827-09b0240509cd/Ascent_Yosemite+National+Park_California_United+States_Rennacker+Art-365_20170915.jpg?format=1500w" alt="Ascent — Yosemite National Park, California" data-lightbox data-caption="Ascent — Yosemite National Park, California">
-        <div class="auction-image-caption">Ascent — Yosemite National Park, California</div>
-      </div>
     </div>
   </div>
 </section>
@@ -1692,7 +1525,7 @@ img[data-lightbox] { cursor: zoom-in; }
       <div class="timeline-item">
         <div class="timeline-label">Lab 4.1</div>
         <div class="timeline-dot-col"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
-        <div class="timeline-content"><h4>Project Kickoff and Initial Concepts</h4><p>Define your team's values, communication norms, roles, and accountability structure before a single pixel is designed. Present your competitive research findings and initial concept directions. Three concepts per team minimum.</p></div>
+        <div class="timeline-content"><h4>Project Kickoff and Initial Concepts</h4><p>Define your team's values, communication norms, roles, and accountability structure before a single pixel is designed. From there, get moving: each team owns one deliverable segment from the scope of work, so come to this milestone with real progress and a clear plan for how you'll execute the rest of it. Show us work in progress, not a concept — and come prepared for it to change.</p></div>
       </div>
       <div class="timeline-item">
         <div class="timeline-label">Lab 4.2</div>
@@ -1730,8 +1563,8 @@ img[data-lightbox] { cursor: zoom-in; }
     <p>There are six performance indicators for this project. Each team will be evaluated on all six. The winning concepts will be strong across all of them.</p>
     <div class="metrics-grid">
       <div class="metric-card"><span class="metric-number">01</span><h4>On-time delivery</h4><p>All deliverables completed and presented by each milestone deadline. 100% of the work, on time, every time.</p><p class="metric-aside">The client who waits for your deck is already thinking about your replacement.</p></div>
-      <div class="metric-card"><span class="metric-number">02</span><h4>Conceptual cohesion</h4><p>Every deliverable — UX, brand, social, print, video — feels like it came from the same mind. No fragmented projects.</p><p class="metric-aside">A great social post can't save a bad UX. They rise together or they sink together.</p></div>
-      <div class="metric-card"><span class="metric-number">03</span><h4>Feature integrity</h4><p>The AR viewer, auction system, and gallery edition experience are fully thought through. Edge cases addressed. Flows complete.</p><p class="metric-aside">What happens when someone wins an auction at 2am and their card declines? That screen matters too.</p></div>
+      <div class="metric-card"><span class="metric-number">02</span><h4>Conceptual cohesion</h4><p>Every deliverable — from the usability research, to the mobile components, to the working build — feels like it came from the same mind. No fragmented projects.</p><p class="metric-aside">Great research can't save a bad build. They rise together or they sink together.</p></div>
+      <div class="metric-card"><span class="metric-number">03</span><h4>Feature integrity</h4><p>The experience is fully thought through. Edge cases addressed. Flows complete. Nothing left half-built.</p><p class="metric-aside">The moments a user doesn't expect to hit are exactly the ones that decide whether they trust you.</p></div>
       <div class="metric-card"><span class="metric-number">04</span><h4>Quality of execution</h4><p>Pixel-perfect, well-organized, and production-ready. Files that could be handed to a Shopify developer without a follow-up email.</p><p class="metric-aside">A developer opening your Figma file should feel relief, not dread.</p></div>
       <div class="metric-card"><span class="metric-number">05</span><h4>Strategic depth</h4><p>Decisions are traceable back to research and brand strategy — not just aesthetic preference. The team can defend every call.</p><p class="metric-aside">"It looked good" is not a strategy. "Our collector persona needs trust signals above the fold" is.</p></div>
       <div class="metric-card"><span class="metric-number">06</span><h4>Creative risk</h4><p>The concept does something the competition hasn't done, or does something familiar in a way that is distinctly Range &amp; Focus.</p><p class="metric-aside">Safe work wins nothing. The brief says "design like it's going live." Take that seriously.</p></div>
@@ -1758,16 +1591,6 @@ img[data-lightbox] { cursor: zoom-in; }
 
       <li class="accordion-item">
         <button class="accordion-trigger" aria-expanded="false">
-          <span class="accordion-label">Scarcity is the point — communicate it clearly, not anxiously.</span>
-          <span class="accordion-arrow" aria-hidden="true">+</span>
-        </button>
-        <div class="accordion-body">
-          <p>There is a meaningful difference between urgency and pressure. Urgency is honest — five editions exist, and when they are gone they are gone. Pressure is manipulative — countdown timers that scream, language that guilt-trips, layouts that bully. Range &amp; Focus is a brand built on trust. The scarcity should feel like a fact of the work, not a tactic of the store.</p>
-        </div>
-      </li>
-
-      <li class="accordion-item">
-        <button class="accordion-trigger" aria-expanded="false">
           <span class="accordion-label">The AR feature should feel inevitable.</span>
           <span class="accordion-arrow" aria-hidden="true">+</span>
         </button>
@@ -1783,16 +1606,6 @@ img[data-lightbox] { cursor: zoom-in; }
         </button>
         <div class="accordion-body">
           <p>The photographs are real because the locations are real and the miles were real. AI-generated imagery undermines that entirely. The sizzle reel deliverable must use real footage — no AI generation, no synthetic landscapes, no composited scenes that did not happen. This applies to every visual deliverable in the project. When in doubt, ask.</p>
-        </div>
-      </li>
-
-      <li class="accordion-item">
-        <button class="accordion-trigger" aria-expanded="false">
-          <span class="accordion-label">The trail materials need to fit in a camera bag on a 10-mile hike.</span>
-          <span class="accordion-arrow" aria-hidden="true">+</span>
-        </button>
-        <div class="accordion-body">
-          <p>Weight and volume are real constraints on the trail. A folded brochure in a full camera bag is a liability. Whatever your team proposes for trail materials should be light, compact, and durable — and it should feel like it belongs in that environment, not like it was grabbed from a printer tray. Think about what you would actually carry on a switchback, and design from there.</p>
         </div>
       </li>
 
@@ -1872,33 +1685,16 @@ img[data-lightbox] { cursor: zoom-in; }
       </g>
     </svg>
     <p class="tagline">"Seek the wild. Keep the story."</p>
-    <!-- Easter egg: the wren -->
+    <!-- Easter egg: the quail -->
     <div class="wren-egg" title="">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" aria-hidden="true">
         <path d="M20.3,80c.4.2.8.4,1.4.4,1.9,0,5.3-1.9,12.3-9.8,1.4.7,2.8,1.2,4.2,1.6l-3.3,6.7c0,0,0,.2,0,.2,0,.2-.1.4-.1.6,0,.7.5,1.2,1.2,1.2h8.9c.7,0,1.2-.5,1.2-1.2s-.5-1.2-1.2-1.2h-7s2.9-5.9,2.9-5.9c2.1.3,4.2.2,6.3-.1l4.5,6h-2.3c-.7,0-1.2.5-1.2,1.2s.5,1.2,1.2,1.2h11c.7,0,1.2-.5,1.2-1.2s-.5-1.2-1.2-1.2h-5.8s-5-6.6-5-6.6c3.2-1,6.3-2.8,9-5.4,6.9-6.7,12.1-19.9,4.1-35-.7-1.8-.8-2.9-.4-3.7.5-1,1.9-1.9,4.3-2.6.4-.1.6-.4.8-.7.1-.4,0-.7-.1-1.1-.8-1.1-2.7-2.2-3.8-2.6-.8-1.3-3-4.4-4.4-5-.3-.1-.9-.3-1.6-.4.9-2.1,2.8-3.7,5.1-4.1,2.2-.4,5.4.5,5.7,3,.3,2,3.2,1.5,2.8-.4-.7-4-5.4-5.6-8.9-4.6-3,.7-5.4,3.1-6.3,6-2.5-.1-5.9.3-8.5,2.4-3.1,2.4-4.7,5.3-4.7,8.3s0,2.4,0,3.9c0,.9,0,1.8,0,2.3-7,5.2-15.4,14.8-16.5,31.5-.9,1.9-2.6,5.6-4,8.5-1.1,2.4-2.1,4.5-2.3,4.8-.4.8-.2,2.2.8,2.9Z"/>
       </svg>
-      <div class="wren-egg-tooltip">Found the wren. Good eye.</div>
+      <div class="wren-egg-tooltip">Found the quail. Good eye.</div>
     </div>
     <p class="footer-meta">© 2026 Range &amp; Focus &nbsp;|&nbsp; GIT 450/550 Instructional Material &nbsp;|&nbsp; Spring 2026</p>
   </div>
 </footer>
-<!-- ══════════ FRAME PICKER MODAL ══════════ -->
-<div class="frame-picker-modal" id="frame-picker" role="dialog" aria-modal="true" aria-label="Frame options viewer">
-  <div class="frame-picker-card">
-    <button class="frame-picker-close" id="frame-picker-close" aria-label="Close">×</button>
-    <img class="frame-picker-image" id="frame-picker-img" src="" alt="">
-    <div class="frame-picker-body">
-      <div class="frame-picker-name" id="frame-picker-name"></div>
-      <div class="frame-picker-sub">Bay Photo — Metal Print Frame</div>
-      <div class="frame-picker-nav">
-        <button class="frame-picker-btn" id="frame-prev" aria-label="Previous frame">←</button>
-        <div class="frame-picker-dots" id="frame-dots"></div>
-        <button class="frame-picker-btn" id="frame-next" aria-label="Next frame">→</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ══════════ LIGHTBOX ══════════ -->
 <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close image viewer">×</button>
@@ -2044,72 +1840,6 @@ img[data-lightbox] { cursor: zoom-in; }
     });
   }
 
-  // ── FRAME PICKER ──
-  var frames = [
-    { name: 'Modern metal black', img: 'https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-metal-black.jpg' },
-    { name: 'Modern metal pewter', img: 'https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-metal-pewter.jpg' },
-    { name: 'Slim black', img: 'https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-black.jpg' },
-    { name: 'Slim white', img: 'https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-white.jpg' },
-    { name: 'Slim silver', img: 'https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-silver.jpg' },
-    { name: 'Slim gold', img: 'https://dl.bayphoto.com/bpcom_images/metalprints/framed/metal-prints-single-float-slim-gold.jpg' }
-  ];
-  var fpModal   = document.getElementById('frame-picker');
-  var fpImg     = document.getElementById('frame-picker-img');
-  var fpName    = document.getElementById('frame-picker-name');
-  var fpCloseBtn = document.getElementById('frame-picker-close');
-  var fpPrev    = document.getElementById('frame-prev');
-  var fpNext    = document.getElementById('frame-next');
-  var fpDots    = document.getElementById('frame-dots');
-  var fpCurrent = 0;
-
-  frames.forEach(function(_, i) {
-    var dot = document.createElement('button');
-    dot.className = 'frame-picker-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', 'Frame option ' + (i + 1));
-    dot.addEventListener('click', function() { fpShow(i); });
-    fpDots.appendChild(dot);
-  });
-
-  function fpShow(idx) {
-    fpCurrent = (idx + frames.length) % frames.length;
-    fpImg.style.opacity = '0';
-    fpImg.style.transition = 'opacity 0.15s ease';
-    setTimeout(function() {
-      fpImg.src = frames[fpCurrent].img;
-      fpImg.alt = frames[fpCurrent].name;
-      fpName.textContent = frames[fpCurrent].name;
-      fpImg.style.opacity = '1';
-    }, 150);
-    fpDots.querySelectorAll('.frame-picker-dot').forEach(function(d, i) {
-      d.classList.toggle('active', i === fpCurrent);
-    });
-  }
-  function fpOpen(idx) {
-    fpShow(idx);
-    fpModal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function fpClose() {
-    fpModal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  document.querySelectorAll('.frame-item[data-frame]').forEach(function(el) {
-    el.addEventListener('click', function() { fpOpen(parseInt(el.dataset.frame)); });
-    el.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fpOpen(parseInt(el.dataset.frame)); }
-    });
-  });
-  fpPrev.addEventListener('click', function() { fpShow(fpCurrent - 1); });
-  fpNext.addEventListener('click', function() { fpShow(fpCurrent + 1); });
-  fpCloseBtn.addEventListener('click', fpClose);
-  fpModal.addEventListener('click', function(e) { if (e.target === fpModal) fpClose(); });
-  document.addEventListener('keydown', function(e) {
-    if (!fpModal.classList.contains('open')) return;
-    if (e.key === 'Escape') fpClose();
-    if (e.key === 'ArrowLeft') fpShow(fpCurrent - 1);
-    if (e.key === 'ArrowRight') fpShow(fpCurrent + 1);
-  });
-
   // ── LIGHTBOX ──
   var overlay  = document.getElementById('lightbox');
   var lbImg    = document.getElementById('lightbox-img');
@@ -2145,7 +1875,7 @@ img[data-lightbox] { cursor: zoom-in; }
   });
 
   // Wire up brand story images
-  document.querySelectorAll('.brand-story-images img, .gallery-carousel--footer img:not([aria-hidden]), .auction-image img, .dark-section img:not(.stakeholder-avatar img)').forEach(function(img) {
+  document.querySelectorAll('.brand-story-images img, .gallery-carousel--footer img:not([aria-hidden]), .dark-section img:not(.stakeholder-avatar img)').forEach(function(img) {
     if (!img.closest('.stakeholder-avatar') && !img.hasAttribute('data-lightbox')) {
       img.setAttribute('data-lightbox', '');
       img.addEventListener('click', function() {
@@ -2316,16 +2046,16 @@ var RF_QUESTIONS = [
   { type:'mc', q:'How many participants are required to usability test the new prototype, post-redesign?', options:['5','8','10','15'], answer:2 },
   { type:'mc', q:'The brief describes the website as a gallery that happens to sell things. What does this mean for design?', options:['Prioritise the cart above everything','Prioritise storytelling over add-to-cart mechanics','Make it look like a museum with no e-commerce','Focus only on mobile'], answer:1 },
   { type:'mc', q:'For the AR room viewer, which device does the brief specifically say it must work on?', options:['Android phones','iPad','iPhone','Desktop browsers'], answer:2 },
-  { type:'mc', q:'How many editions per image exist in the vault?', options:['3','5','10','25'], answer:1 },
-  { type:'mc', q:'What is the opening bid for a vault auction?', options:['$500','$800','$1,000','$1,200'], answer:3 },
-  { type:'mc', q:'How long does a vault auction run?', options:['7 days','14 days','30 days','60 days'], answer:2 },
-  { type:'mc', q:'What happens if no bids are placed during the 30-day window?', options:['The image retires','The price drops 25%','The auction resets for another 30 days','It becomes a gallery edition'], answer:2 },
-  { type:'mc', q:'How many gallery editions are available per image?', options:['10','25','50','100'], answer:2 },
-  { type:'mc', q:'What does a buyer receive electronically after winning?', options:['A signed physical certificate','A digital certificate of authenticity','A free second print','A vault membership'], answer:1 },
-  { type:'mc', q:'Why does the trail materials scope list weight and size as big constraints?', options:['They need to fit through a mail slot','They must fit in a fully-loaded camera bag','They will go through retail stores','They must survive being wet'], answer:1 },
+  { type:'mc', q:'Which tool does the Development team use for version control?', options:['Google Drive','Dropbox','GitHub','Figma Version History'], answer:2 },
+  { type:'mc', q:'What must the Research & Testing team compare in their final report?', options:['Only post-test data','Pre-test findings against post-test findings','Competitor pricing','Shopify theme performance'], answer:1 },
+  { type:'mc', q:'What resource does the brief provide for the Mobile Team to learn responsive component scaling?', options:['A Figma plugin','A provided video walkthrough','An AI wireframe generator','A design system audit tool'], answer:1 },
+  { type:'mc', q:'What must the Development team cross-check their build against?', options:['Only the copy deck', 'The Figma file and the research team’s findings','Google Analytics','A stock photo library'], answer:1 },
+  { type:'mc', q:'What is the aspect ratio of a standard vertical print?', options:['1:3','4:3','3:4','16:9'], answer:2 },
+  { type:'mc', q:'Which of these is listed as off-brand for Range and Focus photography?', options:['Natural light, no flash','Landscape-first framing','AI-generated imagery','Cinematic mood'], answer:2 },
+  { type:'mc', q:'By Lab 4.1, what should each team be prepared to show?', options:['A finished, pixel-perfect Figma file','Work in progress and a clear plan for execution','A rendered video walkthrough','A completed Shopify store'], answer:1 },
   { type:'mc', q:'How many users should be included in the audit of the current website, before the redesign is tested?', options:['3','5','8','10'], answer:1 },
   { type:'mc', q:'How many total size options are available across standard and panoramic prints?', options:['4','6','8','10'], answer:2 },
-  { type:'mc', q:'How many frame options are available?', options:['4','5','6','8'], answer:2 },
+  { type:'mc', q:'What is the aspect ratio of a panoramic horizontal print?', options:['1:3','3:4','4:3','3:1'], answer:3 },
   { type:'mc', q:'Which typeface is specified for headlines and display use?', options:['Work Sans','Playfair Display','GT America','Freight Display'], answer:1 },
   { type:'mc', q:'What is the hex code for R&F Alpine, the primary brand color?', options:['#6b331e','#ca9c37','#2c3820','#437394'], answer:2 },
   { type:'mc', q:'What is the name of the R&F neutral warm off-white color?', options:['Mesa','Limestone','Glacier','Marigold'], answer:1 },
@@ -2333,14 +2063,14 @@ var RF_QUESTIONS = [
   { type:'mc', q:'How many national parks have Cameron and Josh visited?', options:['26','33','38','45'], answer:2 },
   { type:'mc', q:'What is the Range and Focus Instagram handle?', options:['@rennackerart','@rangeandfocusphoto','@rangeandfocus','@cameronrennacker'], answer:2 },
   { type:'mc', q:'What is Sahara Rennacker role on the team?', options:['Senior Assistant to the Photographer','Chief Trail Officer','Brand Director','Art Director'], answer:1 },
-  { type:'mc', q:'What is the key difference between urgency and pressure in the context of scarcity?', options:['Urgency uses timers; pressure uses copy','Urgency is honest; pressure is manipulative','Urgency applies to auctions only','There is no meaningful difference'], answer:1 },
+  { type:'mc', q:'What is the focus of Lab 4.3, Revisions Round 2?', options:['Team kickoff and norms','Elevating to mid-fidelity','Pixel-perfect, presentation-ready work across every deliverable','A post-mortem reflection'], answer:2 },
   { type:'mc', q:'What does the brief say about AI-generated imagery?', options:['Encouraged for social only','Can be used if disclosed','Not used, and that is a stance, not a limitation','Permitted for sizzle reels only'], answer:2 },
   { type:'mc', q:'What does the winning concept stand to receive?', options:['A cash prize','A letter of recommendation','Consideration for real-world development on the Shopify build','Publication in a design magazine'], answer:2 },
   { type:'mc', q:'Which AR solution is NOT listed in the brief as a research option?', options:['Shopify native usdz/glb','Zakeke','Threekit','Adobe Aero'], answer:3 },
-  { type:'mc', q:'What is the opening bid, and is there a ceiling?', options:['$800, no ceiling','$1,200 with a $10,000 ceiling','$1,200, no ceiling and no reserve','$500, market decides'], answer:2 },
-  { type:'mc', q:'After winning an auction, when does size and frame selection happen?', options:['Before bidding','During the auction','After winning, in the post-win flow','At time of delivery'], answer:2 },
+  { type:'mc', q:'What is the focus of Lab 4.2, Revisions Round 1?', options:['Final production files','Elevating to mid-fidelity, with all major flows present and navigable','Kickoff and team norms','Post-mortem reflection'], answer:1 },
+  { type:'mc', q:'How many performance indicators will each team be evaluated on?', options:['3','4','6','8'], answer:2 },
   { type:'multi', q:'Which of the following are listed as standard print sizes? Select all that apply.', options:['12 x 9 in','18 x 12 in','24 x 18 in','48 x 36 in','60 x 40 in'], answers:[0,2,3] },
-  { type:'multi', q:'Which of the following are deliverables of the Mobile Team? Select all that apply.', options:['A sitemap and user-flow diagram','A responsive component library','A digital certificate of authenticity','A mobile wireframe','A 30-day auction countdown'], answers:[0,1,3] }
+  { type:'multi', q:'Which of the following are deliverables of the Mobile Team? Select all that apply.', options:['A sitemap and user-flow diagram','A responsive component library','A finished, production-ready Shopify build','A mobile wireframe','A written brand style guide'], answers:[0,1,3] }
 ];
 
 var LOCKOUT_MS  = 5 * 60 * 1000;
